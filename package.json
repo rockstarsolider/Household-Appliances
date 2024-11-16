@@ -21,6 +21,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "daisyui": "^4.12.14"
+    "daisyui": "^4.12.14",
+    "htmx.org": "^1.9.12"
   }
 }
