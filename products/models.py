@@ -10,6 +10,21 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = "دسته بندی ها"
         verbose_name = "دسته بندی"
+    
+class Color(models.Model):
+    name = models.CharField(max_length=50, verbose_name='نام'),
+    color_code = models.CharField(max_length=10, verbose_name='کد رنگ')
+
+    class Meta:
+        verbose_name_plural = "رنگ"
+        verbose_name = "رنگ ها"
+
+class Brand(models.Model):
+    name = models.CharField(max_length=50, verbose_name='نام'),
+
+    class Meta:
+        verbose_name_plural = "برند"
+        verbose_name = "برند ها"
 
 class Product(models.Model):  
     name = models.CharField(max_length=255, verbose_name='نام')  
@@ -20,21 +35,15 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', default='default.png', verbose_name='تصویر اصلی')  
     stock = models.PositiveIntegerField(default=0, verbose_name='موجودی')  
     published_at = models.DateTimeField(verbose_name='منتشر شده در')
-    properties = models.TextField(blank=True, verbose_name='ویژگی ها', help_text="Enter properties in the format 'key: value' on separate lines.")
+    portable = models.BooleanField(blank=True, null=True, verbose_name='قابلیت حمل')
+    color = models.ForeignKey(Color, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='رنگ')
+    brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='برند')
 
     def __str__(self):  
         return self.name  
 
     def is_in_stock(self):  
         return self.stock > 0  
-    
-    def properties_dict(self):  
-        properties_dict = {}  
-        for line in self.properties.splitlines():  
-            if ':' in line:  
-                key, value = line.split(':', 1)  
-                properties_dict[key.strip()] = value.strip()  
-        return properties_dict 
     
     class Meta:
         verbose_name_plural = "محصولات"
