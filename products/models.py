@@ -1,4 +1,5 @@
 from django.db import models 
+from django_ckeditor_5.fields import CKEditor5Field  
 
 class Category(models.Model):  
     name = models.CharField(max_length=255, unique=True, verbose_name='نام')  
@@ -12,23 +13,27 @@ class Category(models.Model):
         verbose_name = "دسته بندی"
     
 class Color(models.Model):
-    name = models.CharField(max_length=50, verbose_name='نام'),
+    title = models.CharField(max_length=255, verbose_name='نام')
     color_code = models.CharField(max_length=10, verbose_name='کد رنگ')
 
     class Meta:
         verbose_name_plural = "رنگ"
         verbose_name = "رنگ ها"
+    def __str__(self):  
+        return self.title
 
 class Brand(models.Model):
-    name = models.CharField(max_length=50, verbose_name='نام'),
+    title = models.CharField(max_length=255, verbose_name='نام')
 
     class Meta:
         verbose_name_plural = "برند"
         verbose_name = "برند ها"
+    def __str__(self):  
+        return self.title
 
 class Product(models.Model):  
     name = models.CharField(max_length=255, verbose_name='نام')  
-    description = models.TextField(verbose_name='توضیحات', null=True, blank=True)  
+    description = CKEditor5Field(verbose_name='توضیحات', null=True, blank=True, config_name='extends')  
     price = models.PositiveBigIntegerField(verbose_name='قیمت') 
     special_price = models.PositiveBigIntegerField(null=True, blank=True, verbose_name='قیمت ویژه') 
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='products', verbose_name='دسته بندی')  
@@ -45,6 +50,18 @@ class Product(models.Model):
     def is_in_stock(self):  
         return self.stock > 0  
     
+    def formatted_price(self):
+        return f"{self.price:,} تومان"
+    
     class Meta:
         verbose_name_plural = "محصولات"
         verbose_name = "محصول"
+
+class ProductImage(models.Model):
+    image = models.ImageField(upload_to='products/', verbose_name='تصویر ') 
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول مرتبط')
+    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name='آپلود شده در')
+
+    class Meta:
+        verbose_name_plural = "تصویر"
+        verbose_name = "تصاویر"

@@ -16,7 +16,7 @@
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _styles_tailwind_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../styles/tailwind.css */ \"./assets/styles/tailwind.css\");\n/* harmony import */ var htmx_org__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! htmx.org */ \"./node_modules/htmx.org/dist/htmx.min.js\");\n/* harmony import */ var htmx_org__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(htmx_org__WEBPACK_IMPORTED_MODULE_1__);\n\r\n  \n\n//# sourceURL=webpack://household-appliances/./assets/scripts/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _styles_tailwind_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../styles/tailwind.css */ \"./assets/styles/tailwind.css\");\n/* harmony import */ var htmx_org__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! htmx.org */ \"./node_modules/htmx.org/dist/htmx.min.js\");\n/* harmony import */ var htmx_org__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(htmx_org__WEBPACK_IMPORTED_MODULE_1__);\n\r\n  \r\n\r\nwindow.htmx = htmx;  \n\n//# sourceURL=webpack://household-appliances/./assets/scripts/index.js?");
 
 /***/ }),
 
