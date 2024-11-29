@@ -1,5 +1,6 @@
 from django.db import models 
 from django_ckeditor_5.fields import CKEditor5Field  
+from django.utils.safestring import mark_safe
 
 class Category(models.Model):  
     name = models.CharField(max_length=255, unique=True, verbose_name='نام')  
@@ -61,6 +62,9 @@ class ProductImage(models.Model):
     image = models.ImageField(upload_to='products/', verbose_name='تصویر ') 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول مرتبط')
     uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name='آپلود شده در')
+
+    def image_preview(self):
+        return mark_safe('<img src="{0}" width="64" height="64" />'.format(self.image.url))
 
     class Meta:
         verbose_name_plural = "تصویر"
