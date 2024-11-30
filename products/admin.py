@@ -17,6 +17,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['name', 'id']
     list_display_links = ['name', 'image_tag']
     list_per_page = 50
+    ordering = ['published_at']
 
     def image_tag(self, obj):
         return format_html('<img src="{}" style="max-width:40px; max-height:40px"/>'.format(obj.image.url))

@@ -1,20 +1,23 @@
 from django.shortcuts import render
-from django.views import View
-from django.shortcuts import render
+from django.views.generic import ListView, DetailView
 from .models import Product, ProductImage
 
 # Create your views here.
-class ProductDetailView(View):
-    def get(self, request, pk):
-        product = Product.objects.get(pk=pk)
-        images = ProductImage.objects.filter(product=product)
-        context = {
-            'product': product,
-            'images': images
-        }
-        return render(request, 'products/product.html', context)
+class ProductDetailView(DetailView):  
+    model = Product  
+    template_name = 'products/product.html'  
+    context_object_name = 'product'  
     
-class ProductListView(View):
-    def get(self, request):
-        products = Product.objects.all()
-        return render(request, 'products/products.html', {'products': products})
+    def get_context_data(self, **kwargs):  
+        context = super().get_context_data(**kwargs)  
+        context['images'] = ProductImage.objects.filter(product=self.object)  
+        return context  
+    
+class ProductListView(ListView):
+    model = Product 
+    template_name = 'products/products.html'  
+    context_object_name = 'products'  # default is 'object_list'  
+    paginate_by = 30
+
+    def get_queryset(self):  
+        return Product.objects.order_by('published_at')

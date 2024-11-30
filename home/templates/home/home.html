@@ -1,0 +1,76 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+    <div class='px-2 md:px-8 2xl:px-[10%]'>
+        <!-- Header -->
+        {% include "products/partial/header.html" %}
+
+        <!-- Banners -->
+        <div class="carousel w-full mt-6 rounded-xl">
+            <div id="slide1" class="carousel-item relative w-full">
+              <img
+                src="https://dkstatics-public.digikala.com/digikala-adservice-banners/1795b2340ba0eadf39c321165c2048a0e47aa6a2_1732911322.gif?x-oss-process=image?x-oss-process=image/format,webp"
+                class="w-full" />
+              <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                <a href="#slide3" class="btn btn-circle">❮</a>
+                <a href="#slide2" class="btn btn-circle">❯</a>
+              </div>
+            </div>
+            <div id="slide2" class="carousel-item relative w-full">
+              <img
+                src="https://dkstatics-public.digikala.com/digikala-adservice-banners/d729fdcaaba2f677c19c58a8c163d545d0949c8a_1732716144.jpg?x-oss-process=image/quality,q_95/format,webp"
+                class="w-full" />
+              <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                <a href="#slide1" class="btn btn-circle">❮</a>
+                <a href="#slide3" class="btn btn-circle">❯</a>
+              </div>
+            </div>
+            <div id="slide3" class="carousel-item relative w-full">
+              <img
+                src="https://dkstatics-public.digikala.com/digikala-adservice-banners/6d35e00155f1deca98a5f560c21a9c6f8a5116cb_1732721111.gif?x-oss-process=image?x-oss-process=image/format,webp"
+                class="w-full" />
+              <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                <a href="#slide2" class="btn btn-circle">❮</a>
+                <a href="#slide1" class="btn btn-circle">❯</a>
+              </div>
+            </div>
+        </div>
+
+        <!-- Latest products -->
+        <div class='w-full flex flex-col border border-gray-300 rounded-xl p-5 mt-4'>
+            <div class='flex w-full justify-center items-center gap-4 mb-6'>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7 text-primary">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
+                </svg>
+                <h2 class='font-medium text-xl'>جدیدترین محصولات</h2>
+            </div>             
+            {% include "products/partial/products_list_partial.html" %}
+        </div>
+
+        <!-- Categories -->
+        <div class='w-full flex flex-col p-5 mt-10 border-gray-300 border rounded-xl'>
+            <h2 class='font-medium text-xl text-center'>خرید بر اساس دسته بندی</h2>            
+            <div class='flex gap-10 items-center mt-6'>
+                {% for category in categories %}
+                    <div class='flex flex-col justify-center items-center cursor-pointer'>
+                        <img src='{{category.image.url}}' class='size-28'/>
+                        <p class='font-medium'>{{category.name}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Brands -->
+        <div class='w-full flex flex-col p-5 mt-6 border-gray-300 border rounded-xl'>
+            <h2 class='font-medium text-xl text-center'>محبوب ترین برند ها</h2>            
+            <div class='flex gap-10 items-center mt-1'>
+                {% for brand in brands %}
+                    <div class='flex flex-col justify-center items-center cursor-pointer'>
+                        <img src='{{brand.image.url}}' class='size-24'/>
+                        <p class='font-medium'>{{brand.title}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

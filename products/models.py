@@ -3,7 +3,8 @@ from django_ckeditor_5.fields import CKEditor5Field
 from django.utils.safestring import mark_safe
 
 class Category(models.Model):  
-    name = models.CharField(max_length=255, unique=True, verbose_name='نام')  
+    name = models.CharField(max_length=255, unique=True, verbose_name='نام') 
+    image = models.ImageField(upload_to='categories/', default='default.png', verbose_name='تصویر دسته بندی')  
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='ساخته شده در')  
     
     def __str__(self):  
@@ -12,6 +13,7 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = "دسته بندی ها"
         verbose_name = "دسته بندی"
+        ordering = ["-created_at"]
     
 class Color(models.Model):
     title = models.CharField(max_length=255, verbose_name='نام')
@@ -25,6 +27,7 @@ class Color(models.Model):
 
 class Brand(models.Model):
     title = models.CharField(max_length=255, verbose_name='نام')
+    image = models.ImageField(upload_to='brands/', default='default.png', verbose_name='تصویر برند')  
 
     class Meta:
         verbose_name_plural = "برند"

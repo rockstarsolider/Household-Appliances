@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # Apps
     'core',
     'products',
+    'home',
 
     # Third party packages
     'django_cleanup.apps.CleanupConfig',
