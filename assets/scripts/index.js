@@ -1,4 +1,4 @@
 import '../styles/tailwind.css';
-import 'htmx.org';  
+import '../scripts/htmx.min.js';  
 
-window.htmx = htmx;  
+window.htmx = require('../scripts/htmx.min.js');

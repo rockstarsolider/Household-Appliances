@@ -21,6 +21,10 @@ class ProductAdmin(admin.ModelAdmin):
 
     def image_tag(self, obj):
         return format_html('<img src="{}" style="max-width:40px; max-height:40px"/>'.format(obj.image.url))
+    
+    def save_model(self, request, obj, form, change):  
+        obj.clean()  # Call the clean method  
+        super().save_model(request, obj, form, change) 
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)

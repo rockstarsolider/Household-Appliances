@@ -9,25 +9,37 @@
     <h2 class="mt-5 text-lg font-medium grid">تیشرت مردانه</h2>
     <div class="flex flex-col lg:flex-row mt-4 gap-6">
         <!-- Filters section -->
-        <div class="p-3 border border-gray-300 rounded-md w-full lg:w-1/4">
+        <div class="flex flex-col p-3 border border-gray-300 rounded-md w-full lg:w-1/4">
             <h3 class="font-medium text-gray-700">فیلتر ها</h3>
-            <select class="select w-full max-w-xs mt-4">
-                <option disabled selected>رنگ</option>
-                <option>سفید</option>
-                <option>قرمز</option>
-                <option>مشکی</option>
+
+            <select id='brand' class="select w-full max-w-xs mt-2" onchange='updateUrl()' name="brand" >
+                <option value='' selected>برند</option>
+                {% for brand in brands %}
+                <option value="{{ brand.id }}" {% if brand.id|stringformat:"s" == selected_brand %}selected{% endif %}>{{ brand.title }}</option>
+                {% endfor %}
             </select>
-            <select class="select w-full max-w-xs mt-2">
-                <option disabled selected>برند</option>
-                <option>سونی</option>
-                <option>LG</option>
-            </select>
+
+            <div class="form-control pr-3 mt-2">
+                <label class="label cursor-pointer flex justify-between">
+                    <span class="label-text">کالا های قابل حمل</span>
+                    <input type="checkbox" class="toggle toggle-primary" />
+                </label>
+            </div>
+
+            <div class="form-control pr-3 mt-2">
+                <label class="label cursor-pointer flex justify-between">
+                    <span class="label-text">کالا های تخفیف دار</span>
+                    <input type="checkbox" class="toggle toggle-primary" />
+                </label>
+            </div>
+
             <div class="form-control pr-3 mt-2">
                 <label class="label cursor-pointer flex justify-between">
                     <span class="label-text">فقط کالاهای موجود</span>
                     <input type="checkbox" class="toggle toggle-primary" />
                 </label>
             </div>
+
             <div class="pr-4 text-sm mt-3">
                 <p>محدوده قیمت</p>
                 <label class="input input-bordered flex items-center gap-2 mt-2" >
@@ -39,11 +51,15 @@
                     <input type="text" class="grow focus:ring-0 border-none" placeholder="تومان" />
                 </label>
             </div>
-            <select class="select w-full max-w-xs mt-2">
-                <option disabled selected>دسته بندی</option>
-                <option>لوازم آشپزخانه</option>
-            </select>
+
+            <select class="select w-full max-w-xs mt-2" id='category' onchange='updateUrl()' name="category">  
+                <option selected value=''>دسته بندی</option>  
+                {% for category in categories %}  
+                    <option value="{{ category.id }}" {% if category.id|stringformat:"s" == selected_category %}selected{% endif %}>{{ category.name }}</option>  
+                {% endfor %}  
+            </select>  
         </div>
+
 
         <!-- Sort and products list -->
         <div class="lg:w-3/4">
@@ -58,9 +74,32 @@
                 <a class="font-normal text-gray-500 cursor-pointer text-sm">محبوب ترین</a>                 
             </div>
 
-            {% include "products/partial/products_list_partial.html" %}
+            <div id='product-list'>
+                {% include "products/partial/products_list_partial.html" %}
+            </div>
         </div>
     </div>
+    <!-- Footer -->
+    {% include "products/partial/footer.html" %}
 </div>
+
+<script>  
+    function updateUrl() {  
+        const brand = document.getElementById('brand').value;  
+        const category = document.getElementById('category').value;  
+        const url = new URL(window.location);  
+
+        if (brand) { url.searchParams.set('brand', brand)} else { url.searchParams.delete('brand') }  
+        if (category) { url.searchParams.set('category', category)} else { url.searchParams.delete('category') }  
+ 
+        htmxRequest(url) 
+    }
+
+    function htmxRequest(url) {
+        window.history.pushState({}, '', url);
+        var productsUrl = "{% url 'products' %}?" + url.searchParams.toString();  
+        htmx.ajax('GET', productsUrl, { target: 'body' }); 
+    }  
+</script>
 
 {% endblock %}

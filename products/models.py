@@ -1,6 +1,7 @@
 from django.db import models 
 from django_ckeditor_5.fields import CKEditor5Field  
 from django.utils.safestring import mark_safe
+from django.core.exceptions import ValidationError  
 
 class Category(models.Model):  
     name = models.CharField(max_length=255, unique=True, verbose_name='نام') 
@@ -56,6 +57,14 @@ class Product(models.Model):
     
     def formatted_price(self):
         return f"{self.price:,} تومان"
+    
+    def formatted_special_price(self):
+        if self.special_price:
+            return f"{self.special_price:,} تومان"
+        
+    def clean(self):  
+        if self.special_price is not None and self.special_price >= self.price:  
+            raise ValidationError('قیمت ویژه باید کمتر از قیمت باشد.')  
     
     class Meta:
         verbose_name_plural = "محصولات"
