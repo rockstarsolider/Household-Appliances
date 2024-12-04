@@ -1,20 +1,24 @@
 <div class="flex-col lg:flex lg:flex-row justify-start items-start gap-5">
-    <!-- Products -->
-    {% for product in products %}
-    <a hx-get='{% url 'product' product.id %}' hx-push-url='true' hx-target='body' class="w-full cursor-pointer lg:w-64 flex lg:flex-col mt-4 border border-gray-300 rounded-xl">
-        <img class="p-3 size-32 lg:size-64 rounded-3xl" src="{{product.image.url}}"/>
-        <div class="w-full flex flex-col justify-between p-3">  
-            <p class="font-medium h-10">{{product.name}}</p>
-            <div class="flex flex-col justify-between items-end mt-1 h-12">
-                {% if product.special_price %}
-                    <p class="font-medium text-base text-gray-700 line-through">{{product.formatted_price}}</p>
-                    <div class="badge badge-primary">{{product.formatted_special_price}}</div>
-                {% else %}
-                    <p class="font-medium text-base text-gray-700">{{product.formatted_price}}</p>
-                    <div>  </div>
-                {% endif %}
-            </div>
-        </div>
-    </a>
-    {% endfor %}
+    {% if products %}
+        <!-- Products -->
+        {% for product in products %}
+            <a hx-get='{% url 'product' product.id %}' hx-push-url='true' hx-target='body' class="w-full cursor-pointer lg:w-64 flex lg:flex-col mt-4 border border-gray-300 rounded-xl">
+                <img class="p-3 size-32 lg:size-64 rounded-3xl" src="{{product.image.url}}"/>
+                <div class="w-full flex flex-col justify-between p-3">  
+                    <p class="font-medium h-10">{{product.name}}</p>
+                    <div class="flex flex-col justify-between items-end mt-1 h-12">
+                        {% if product.special_price %}
+                            <p class="font-medium text-base text-gray-700 line-through">{{product.formatted_price}}</p>
+                            <div class="badge badge-primary">{{product.formatted_special_price}}</div>
+                        {% else %}
+                            <p class="font-medium text-base text-gray-700">{{product.formatted_price}}</p>
+                            <div>  </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    {% else %}
+        <h2 class='font-medium text-2xl pt-4 text-center w-full'>محصولی پیدا نشد!</h2>
+    {% endif %}
 </div>

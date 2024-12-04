@@ -2295,6 +2295,9 @@ details.collapse summary::-webkit-details-marker {
 .mb-6 {
   margin-bottom: 1.5rem;
 }  
+.mb-8 {
+  margin-bottom: 2rem;
+}  
 .ml-2 {
   margin-left: 0.5rem;
 }  
@@ -2313,6 +2316,12 @@ details.collapse summary::-webkit-details-marker {
 .mt-2 {
   margin-top: 0.5rem;
 }  
+.mt-20 {
+  margin-top: 5rem;
+}  
+.mt-24 {
+  margin-top: 6rem;
+}  
 .mt-3 {
   margin-top: 0.75rem;
 }  
@@ -2325,26 +2334,8 @@ details.collapse summary::-webkit-details-marker {
 .mt-6 {
   margin-top: 1.5rem;
 }  
-.mt-32 {
-  margin-top: 8rem;
-}  
-.mt-24 {
-  margin-top: 6rem;
-}  
-.mt-20 {
-  margin-top: 5rem;
-}  
-.mb-4 {
-  margin-bottom: 1rem;
-}  
 .mt-8 {
   margin-top: 2rem;
-}  
-.mb-5 {
-  margin-bottom: 1.25rem;
-}  
-.mb-8 {
-  margin-bottom: 2rem;
 }  
 .block {
   display: block;
@@ -2388,6 +2379,12 @@ details.collapse summary::-webkit-details-marker {
   width: 1.75rem;
   height: 1.75rem;
 }  
+.h-10 {
+  height: 2.5rem;
+}  
+.h-12 {
+  height: 3rem;
+}  
 .h-28 {
   height: 7rem;
 }  
@@ -2399,18 +2396,6 @@ details.collapse summary::-webkit-details-marker {
 }  
 .h-8 {
   height: 2rem;
-}  
-.h-10 {
-  height: 2.5rem;
-}  
-.h-14 {
-  height: 3.5rem;
-}  
-.h-12 {
-  height: 3rem;
-}  
-.h-1 {
-  height: 0.25rem;
 }  
 .h-\[1px\] {
   height: 1px;
@@ -2491,20 +2476,17 @@ details.collapse summary::-webkit-details-marker {
 .gap-2 {
   gap: 0.5rem;
 }  
+.gap-3 {
+  gap: 0.75rem;
+}  
 .gap-4 {
   gap: 1rem;
-}  
-.gap-6 {
-  gap: 1.5rem;
 }  
 .gap-5 {
   gap: 1.25rem;
 }  
-.gap-3 {
-  gap: 0.75rem;
-}  
-.gap-20 {
-  gap: 5rem;
+.gap-6 {
+  gap: 1.5rem;
 }  
 .overflow-hidden {
   overflow: hidden;
@@ -2514,9 +2496,6 @@ details.collapse summary::-webkit-details-marker {
 }  
 .overflow-y-hidden {
   overflow-y: hidden;
-}  
-.text-ellipsis {
-  text-overflow: ellipsis;
 }  
 .rounded {
   border-radius: 0.25rem;
@@ -2580,10 +2559,6 @@ details.collapse summary::-webkit-details-marker {
   -o-object-fit: cover;
      object-fit: cover;
 }  
-.object-fill {
-  -o-object-fit: fill;
-     object-fit: fill;
-}  
 .p-2 {
   padding: 0.5rem;
 }  
@@ -2608,18 +2583,11 @@ details.collapse summary::-webkit-details-marker {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }  
-.px-6 {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}  
 .pb-2 {
   padding-bottom: 0.5rem;
 }  
 .pb-3 {
   padding-bottom: 0.75rem;
-}  
-.pl-2 {
-  padding-left: 0.5rem;
 }  
 .pr-3 {
   padding-right: 0.75rem;
@@ -2627,8 +2595,18 @@ details.collapse summary::-webkit-details-marker {
 .pr-4 {
   padding-right: 1rem;
 }  
+.pt-6 {
+  padding-top: 1.5rem;
+}  
+.pt-4 {
+  padding-top: 1rem;
+}  
 .text-center {
   text-align: center;
+}  
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }  
 .text-base {
   font-size: 1rem;
@@ -2645,10 +2623,6 @@ details.collapse summary::-webkit-details-marker {
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
-}  
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
 }  
 .font-medium {
   font-weight: 500;
@@ -2762,14 +2736,6 @@ details.collapse summary::-webkit-details-marker {
     justify-content: flex-start;
   }
 
-  .lg\:gap-20 {
-    gap: 5rem;
-  }
-
-  .lg\:gap-3 {
-    gap: 0.75rem;
-  }
-
   .lg\:gap-40 {
     gap: 10rem;
   }
@@ -2777,16 +2743,8 @@ details.collapse summary::-webkit-details-marker {
 
 @media (min-width: 1280px) {
 
-  .xl\:grid {
-    display: grid;
-  }
-
   .xl\:w-\[30rem\] {
     width: 30rem;
-  }
-
-  .xl\:grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .xl\:flex-row {

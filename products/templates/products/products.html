@@ -22,21 +22,21 @@
             <div class="form-control pr-3 mt-2">
                 <label class="label cursor-pointer flex justify-between">
                     <span class="label-text">کالا های قابل حمل</span>
-                    <input type="checkbox" class="toggle toggle-primary" />
+                    <input onchange='updateUrl()' {% if selected_portable == 'true' %} checked {% endif %} id='portable' type="checkbox" class="toggle toggle-primary" />
                 </label>
             </div>
 
             <div class="form-control pr-3 mt-2">
                 <label class="label cursor-pointer flex justify-between">
                     <span class="label-text">کالا های تخفیف دار</span>
-                    <input type="checkbox" class="toggle toggle-primary" />
+                    <input onchange='updateUrl()' {% if selected_discount == 'true' %} checked {% endif %} id='discount' type="checkbox" class="toggle toggle-primary" />
                 </label>
             </div>
 
             <div class="form-control pr-3 mt-2">
                 <label class="label cursor-pointer flex justify-between">
                     <span class="label-text">فقط کالاهای موجود</span>
-                    <input type="checkbox" class="toggle toggle-primary" />
+                    <input onchange='updateUrl()' {% if selected_stock == 'true' %} checked {% endif %} id='stock' type="checkbox" class="toggle toggle-primary" />
                 </label>
             </div>
 
@@ -44,11 +44,11 @@
                 <p>محدوده قیمت</p>
                 <label class="input input-bordered flex items-center gap-2 mt-2" >
                     از
-                    <input type="text" class="grow focus:ring-0 border-none" placeholder="تومان" />
+                    <input id='from' onchange='updateUrl()' {% if selected_from %} value='{{selected_from}}' {% endif %} type="text" class="grow focus:ring-0 border-none" placeholder="تومان" />
                 </label>
                 <label class="input input-bordered flex items-center gap-2 mt-2" >
                     تا
-                    <input type="text" class="grow focus:ring-0 border-none" placeholder="تومان" />
+                    <input id='to' onchange='updateUrl()' {% if selected_to %} value='{{selected_to}}' {% endif %} type="text" class="grow focus:ring-0 border-none" placeholder="تومان" />
                 </label>
             </div>
 
@@ -68,10 +68,10 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0-3.75-3.75M17.25 21 21 17.25" />
                 </svg> 
                 <p class=" text-sm">مرتب سازی:</p>
-                <a class="font-normal text-primary cursor-pointer text-sm">جدیدترین</a>                 
-                <a class="font-normal text-gray-500 cursor-pointer text-sm">ارزان ترین</a>                 
-                <a class="font-normal text-gray-500 cursor-pointer text-sm">گران ترین</a>                 
-                <a class="font-normal text-gray-500 cursor-pointer text-sm">محبوب ترین</a>                 
+                <a onclick='updateUrl(order="latest")' class="font-normal cursor-pointer text-sm {%if order == 'latest' or order is not defined or order is none%} text-primary {%else%} text-gray-500 {%endif%}">جدیدترین</a>                 
+                <a onclick='updateUrl(order="cheapest")' class="font-normal cursor-pointer text-sm {%if order == 'cheapest' or order is not defined or order is none%} text-primary {%else%} text-gray-500 {%endif%}">ارزان ترین</a>                 
+                <a onclick='updateUrl(order="expensive")' class="font-normal cursor-pointer text-sm {%if order == 'expensive' or order is not defined or order is none%} text-primary {%else%} text-gray-500 {%endif%}">گران ترین</a>                 
+                <a onclick='updateUrl(order="popular")' class="font-normal cursor-pointer text-sm {%if order == 'popular' or order is not defined or order is none%} text-primary {%else%} text-gray-500 {%endif%}">محبوب ترین</a>                 
             </div>
 
             <div id='product-list'>
@@ -84,14 +84,25 @@
 </div>
 
 <script>  
-    function updateUrl() {  
+    function updateUrl(order='latest') {  
         const brand = document.getElementById('brand').value;  
         const category = document.getElementById('category').value;  
+        const portable = document.getElementById('portable').checked;  
+        const discount = document.getElementById('discount').checked;  
+        const stock = document.getElementById('stock').checked;  
+        const from = document.getElementById('from').value;  
+        const to = document.getElementById('to').value;  
         const url = new URL(window.location);  
 
         if (brand) { url.searchParams.set('brand', brand)} else { url.searchParams.delete('brand') }  
         if (category) { url.searchParams.set('category', category)} else { url.searchParams.delete('category') }  
- 
+        if (portable) { url.searchParams.set('portable', portable)} else { url.searchParams.delete('portable') }  
+        if (discount) { url.searchParams.set('discount', discount)} else { url.searchParams.delete('discount') }  
+        if (stock) { url.searchParams.set('stock', stock)} else { url.searchParams.delete('stock') }  
+        if (from) { url.searchParams.set('from', from)} else { url.searchParams.delete('from') }  
+        if (to) { url.searchParams.set('to', to)} else { url.searchParams.delete('to') } 
+        url.searchParams.set('order', order)
+        
         htmxRequest(url) 
     }
 
