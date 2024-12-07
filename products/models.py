@@ -52,12 +52,15 @@ class Product(models.Model):
     def __str__(self):  
         return self.name  
 
+    @property
     def is_in_stock(self):  
         return self.stock > 0  
     
+    @property
     def formatted_price(self):
         return f"{self.price:,} تومان"
     
+    @property
     def formatted_special_price(self):
         if self.special_price:
             return f"{self.special_price:,} تومان"
@@ -69,6 +72,7 @@ class Product(models.Model):
     class Meta:
         verbose_name_plural = "محصولات"
         verbose_name = "محصول"
+        ordering = ['-published_at']
 
 class ProductImage(models.Model):
     image = models.ImageField(upload_to='products/', verbose_name='تصویر ') 

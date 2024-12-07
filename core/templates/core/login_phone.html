@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div id='container' class='w-full justify-center items-center flex flex-col h-screen'>
+    <form method="post" hx-post='{% url "login_phone"  %}' hx-push-url='true' hx-target='body' class='flex flex-col gap-2 w-full p-3 lg:w-96 lg:p-6 lg:border lg:border-gray-300 rounded-lg my-auto'>
+        {% csrf_token %}
+        <h3 class='font-medium text-lg'>ورود | ثبت نام</h3>
+        <p class='text-gray-700'>لطفا شماره موبایل خود را وارد کنید</p>
+        <input class='input input-bordered w-full mt-4 ' type="phone_number" name="phone_number" placeholder="شماره تلفن" required>
+        <button class='btn btn-primary w-full mt-6' type="submit">ورود</button>
+    </form>
+</div>
+{% endblock content %}

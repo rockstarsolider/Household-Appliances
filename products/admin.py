@@ -13,12 +13,20 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
-    list_display = ['image_tag', 'id', 'name', 'category', 'formatted_price', 'special_price', 'stock', 'published_at']
+    list_display = ['image_tag', 'id', 'name', 'category', 'formatted_price', 'formatted_special_price', 'stock', 'published_at']
     search_fields = ['name', 'id']
     list_display_links = ['name', 'image_tag']
     list_per_page = 50
-    ordering = ['published_at']
 
+    @admin.display(description='قیمت')  
+    def formatted_price(self, obj):  
+        return obj.formatted_price
+    
+    @admin.display(description='قیمت ویژه')  
+    def formatted_special_price(self, obj):  
+        return obj.formatted_special_price
+
+    @admin.display(description='تصویر')  
     def image_tag(self, obj):
         return format_html('<img src="{}" style="max-width:40px; max-height:40px"/>'.format(obj.image.url))
     

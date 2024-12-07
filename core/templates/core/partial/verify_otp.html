@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div id='container' class='w-full justify-center items-center flex flex-col h-screen'>
+    <form method="post" class='flex flex-col gap-2 w-full p-3 lg:w-96 lg:p-6 lg:border lg:border-gray-300 rounded-lg my-auto'>
+        {% csrf_token %}
+        <h3 class='font-medium text-lg'>کد تایید را وارد کنید</h3>
+        <p>کد تایید به شماره {{number}} ارسال شده است</p>
+        <input class='input input-bordered w-full mt-3' type="text" name="mobile_otp" placeholder="کد تایید" required>
+        <button class='btn btn-primary w-full mt-6' type="submit">ثبت کد تایید</button>
+    </form>
+</div>
+{% endblock content %}

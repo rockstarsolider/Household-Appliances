@@ -8,6 +8,7 @@
 
     <h2 class="mt-5 text-lg font-medium grid">تیشرت مردانه</h2>
     <div class="flex flex-col lg:flex-row mt-4 gap-6">
+
         <!-- Filters section -->
         <div class="flex flex-col p-3 border border-gray-300 rounded-md w-full lg:w-1/4">
             <h3 class="font-medium text-gray-700">فیلتر ها</h3>
@@ -41,7 +42,7 @@
             </div>
 
             <div class="pr-4 text-sm mt-3">
-                <p>محدوده قیمت</p>
+                <p>محدوده قیمت</p> 
                 <label class="input input-bordered flex items-center gap-2 mt-2" >
                     از
                     <input id='from' onchange='updateUrl()' {% if selected_from %} value='{{selected_from}}' {% endif %} type="text" class="grow focus:ring-0 border-none" placeholder="تومان" />
@@ -66,12 +67,12 @@
             <div class="flex justify-start items-center gap-4 border-b border-gray-300 pb-3">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0-3.75-3.75M17.25 21 21 17.25" />
-                </svg> 
+                </svg>       
                 <p class=" text-sm">مرتب سازی:</p>
-                <a onclick='updateUrl(order="latest")' class="font-normal cursor-pointer text-sm {%if order == 'latest' or order is not defined or order is none%} text-primary {%else%} text-gray-500 {%endif%}">جدیدترین</a>                 
-                <a onclick='updateUrl(order="cheapest")' class="font-normal cursor-pointer text-sm {%if order == 'cheapest' or order is not defined or order is none%} text-primary {%else%} text-gray-500 {%endif%}">ارزان ترین</a>                 
-                <a onclick='updateUrl(order="expensive")' class="font-normal cursor-pointer text-sm {%if order == 'expensive' or order is not defined or order is none%} text-primary {%else%} text-gray-500 {%endif%}">گران ترین</a>                 
-                <a onclick='updateUrl(order="popular")' class="font-normal cursor-pointer text-sm {%if order == 'popular' or order is not defined or order is none%} text-primary {%else%} text-gray-500 {%endif%}">محبوب ترین</a>                 
+                <a onclick='updateUrl(order="latest")' class="font-normal cursor-pointer text-sm {%if order == 'latest'  or order is none%} text-primary {%else%} text-gray-500 {%endif%}">جدیدترین</a>                 
+                <a onclick='updateUrl(order="cheapest")' class="font-normal cursor-pointer text-sm {%if order == 'cheapest'%} text-primary {%else%} text-gray-500 {%endif%}">ارزان ترین</a>                 
+                <a onclick='updateUrl(order="expensive")' class="font-normal cursor-pointer text-sm {%if order == 'expensive'%} text-primary {%else%} text-gray-500 {%endif%}">گران ترین</a>                 
+                <a onclick='updateUrl(order="popular")' class="font-normal cursor-pointer text-sm {%if order == 'popular'%} text-primary {%else%} text-gray-500 {%endif%}">محبوب ترین</a>                 
             </div>
 
             <div id='product-list'>

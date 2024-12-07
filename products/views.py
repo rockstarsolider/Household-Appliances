@@ -11,12 +11,12 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):  
         context = super().get_context_data(**kwargs)  
         context['images'] = ProductImage.objects.filter(product=self.object)  
-        context['products'] = Product.objects.filter(category=self.object.category)
+        context['products'] = Product.objects.filter(category=self.object.category).exclude(id=self.object.id)
         return context  
 
 class ProductListView(View):
     def get(self, request):
-        products = Product.objects.order_by('published_at')
+        products = Product.objects.all()
 
         selected_category = request.GET.get('category')
         selected_brand = request.GET.get('brand')
