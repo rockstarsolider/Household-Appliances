@@ -16,16 +16,7 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)  
         extra_fields.setdefault('is_superuser', True)  
 
-        return self.create_user(phone_number, email, password, **extra_fields)  
-
-    def normalize_phone_number(self, phone_number):
-        numeric_number = re.sub(r'\D', '', phone_number)  
-        last_10_digits = numeric_number[-10:]   
-        if len(last_10_digits) == 10:
-            normalized_number = '0' + last_10_digits  
-            return normalized_number  
-        else:  
-            return None  
+        return self.create_user(phone_number, email, password, **extra_fields)   
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):  
     phone_number = models.CharField(max_length=15, unique=True, verbose_name='شماره تلفن')  
@@ -33,6 +24,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True, verbose_name='فعال بودن')  
     is_staff = models.BooleanField(default=False)  
     mobile_otp = models.CharField(max_length=6, null=True, blank=True, verbose_name='کد تایید شماره تلفن')
+    otp_generated_at = models.DateTimeField(null=True, blank=True, verbose_name='زمان تولید کد تایید')  
     is_mobile_verified = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ عضویت')
     name = models.CharField(max_length=30, blank=True, verbose_name='نام ')

@@ -8,10 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Django Webpack template</title>
     <script src="{% static 'bundle.js' %}"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="{% static 'bundle.css' %}"> 
   </head>
   <body dir='rtl'>
-    {% block content %}  
+    {% block content %} 
       
     {% endblock %}  
   </body>

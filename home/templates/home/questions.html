@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class='px-2 md:px-8 2xl:px-[10%]'>
+        {% include "products/partial/header.html" %}
+
+        <!-- Icon and titr -->
+        <div class='w-full flex flex-col justify-center items-center mt-20'>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10 text-primary">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+            </svg> 
+            <h3 class='font-semibold text-xl mt-6 mb-12'>پرسش های متداول</h3>
+            
+            <!-- FAQ -->
+            <div tabindex="0" class="collapse collapse-arrow border-base-300 border-b">
+                <div class="collapse-title font-medium">چطور می‌توانم سفارشم را پیگیری کنم؟</div>
+                <div class="collapse-content"><p>برای پیگیری سفارش میتوانید آن را در پنل کاربری خود و در قسمت سفارش ها مشاهده کنید یا برای پیگیری با پشتیبانی تماس بگیرید.</p></div>
+            </div>
+            <div tabindex="0" class="collapse collapse-arrow border-base-300 border-b">
+                <div class="collapse-title font-medium">هزینه ارسال بسته ها چقدر است؟</div>
+                <div class="collapse-content"><p>هزینه ارسال طبق مصوبه شرکت تیپاکس است و برای هر کالا بسته به وزن، حجم و ... متفاوت است.</p></div>
+            </div>
+            <div tabindex="0" class="collapse collapse-arrow border-base-300 border-b">
+                <div class="collapse-title font-medium">قبل از سفارش چه کارهایی را باید انجام دهم؟</div>
+                <div class="collapse-content"><p>فقط کافی است وارد حساب کاربریتان  شوید یا اگر حساب کاربری ندارید ثبت نام کنید.</p></div>
+            </div>
+            <div tabindex="0" class="collapse collapse-arrow border-base-300 border-b">
+                <div class="collapse-title font-medium">سفارشات در چه زمانی به دستم میرسد؟</div>
+                <div class="collapse-content"><p>سفارش ها بسته به مسافت و روز هفته، بین 3 تا 6 روز کاری به دست شما می رسد.</p></div>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10 mt-32 text-primary">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+            </svg> 
+            <h3 class='font-semibold text-xl mt-6'>پشتیبانی</h3>
+            <p class='mt-6'>در صورتی که جواب پرسش های خود را پیدا نکردید میتوانید با پشتیبانی تماس بگیرید.</p>
+            <p class='mt-6'>شماره تماس: 09123456789 </p>
+        </div>
+
+        {% include "products/partial/footer.html" %}
+    </div>
+{% endblock content %}

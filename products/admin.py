@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category, Brand, Color, ProductImage
+from .models import Product, Category, Brand, Color, ProductImage, Comment
 from django.utils.html import format_html
 
 # Register your models here.
@@ -10,6 +10,9 @@ class ProductImageInline(admin.TabularInline):
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'created_at']
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'product', 'user']
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
@@ -28,7 +31,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     @admin.display(description='تصویر')  
     def image_tag(self, obj):
-        return format_html('<img src="{}" style="max-width:40px; max-height:40px"/>'.format(obj.image.url))
+        return format_html('<img src="{}" style="max-width:64px; max-height:64px"/>'.format(obj.image.url))
     
     def save_model(self, request, obj, form, change):  
         obj.clean()  # Call the clean method  
@@ -38,3 +41,4 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Brand)
 admin.site.register(Color)
+admin.site.register(Comment, CommentAdmin)

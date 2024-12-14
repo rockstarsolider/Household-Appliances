@@ -4,9 +4,19 @@
 <div id='container' class='w-full justify-center items-center flex flex-col h-screen'>
     <form method="post" class='flex flex-col gap-2 w-full p-3 lg:w-96 lg:p-6 lg:border lg:border-gray-300 rounded-lg my-auto'>
         {% csrf_token %}
-        <h3 class='font-medium text-lg'> اطلاعات را وارد کنید</h3>
+        <a href='{% url 'login_phone' %}'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 cursor-pointer">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+        </svg></a>
+        <h3 class='font-medium text-lg'>ثبت نام</h3>
         <p>کد تایید به شماره {{number}} ارسال شده است</p>
-        <input class='input input-bordered w-full mt-3' type="text" name="mobile_otp" placeholder="کد تایید" required>
+        {{form.otp}}
+        {{form.name}}
+        <p class='text-red-500'>{{ message }}</p>
+        {% if form.errors %}  
+            <div class="text-red-500">  
+                {{ form.errors }}  
+            </div>  
+        {% endif %}  
         <button class='btn btn-primary w-full mt-6' type="submit">ثبت کد تایید</button>
     </form>
 </div>

@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, View
-from .models import Product, ProductImage, Category, Brand
+from django.views.generic import DetailView, View
+from .models import Product, ProductImage, Category, Brand, Comment
+from .forms import CommentForm
 
 # Create your views here.
 class ProductDetailView(DetailView):  
@@ -12,7 +13,24 @@ class ProductDetailView(DetailView):
         context = super().get_context_data(**kwargs)  
         context['images'] = ProductImage.objects.filter(product=self.object)  
         context['products'] = Product.objects.filter(category=self.object.category).exclude(id=self.object.id)
-        return context  
+        context['comments'] = Comment.objects.filter(product=self.object.id)
+        context['form'] = CommentForm()
+        return context 
+    
+    def post(self, request, pk):  
+        form = CommentForm(request.POST)
+        
+        if form.is_valid():
+            text = form.cleaned_data
+            comment = Comment(
+                user=request.user,
+                product=Product.objects.get(id=pk),
+                text=text
+            )
+            comment.save()
+            return render(request, 'products/partial/comments.html', {'comments':Comment.objects.filter(Product.objects.get(id=pk))})
+        
+        return render(request, 'products/partial/comments.html', {'comments':Comment.objects.filter(Product.objects.get(id=pk))})
 
 class ProductListView(View):
     def get(self, request):

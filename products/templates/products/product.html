@@ -100,10 +100,32 @@
         </div>
     </div>
 
-    <!-- Best seller products -->
+    <!-- Products with same category -->
     <div class='w-full flex flex-col rounded-xl mt-24'>
         <h2 class='font-medium text-2xl text-center'>محصولات مشابه</h2>          
         {% include "products/partial/products_list_partial.html" %}
+    </div>
+
+    <!-- Commments -->
+    <div class='w-full mt-20'>
+        <h3 class='font-medium text-center text-2xl mt-28'>دیدگاه ها</h3>
+        <!-- Enter a comment -->
+        <form method='post' hx-post='{% url 'product' product.id %}' hx-target='#comments' class='flex gap-4 w-full mt-4'>
+            {% csrf_token %}
+            {% if user.is_authenticated %}
+                {{form.text}}
+                {% if form.errors %}  
+                    <div class="text-red-500">  
+                        {{ form.errors }}  
+                    </div>  
+                {% endif %}
+                <button class='btn btn-primary'>ارسال دیدگاه</button>
+            {% endif %}
+        </form>
+
+        <div id='comments'>
+            {% include "products/partial/comments.html" %}
+        </div>
     </div>
 
     <!-- Footer -->

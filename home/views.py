@@ -14,3 +14,7 @@ class HomeView(View):
             'brands': brands
         }
         return render(request, 'home/home.html', context)
+    
+class FaqView(View):
+    def get(self, request):
+        return render(request, 'home/questions.html')

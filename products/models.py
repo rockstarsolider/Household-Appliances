@@ -1,7 +1,8 @@
 from django.db import models 
 from django_ckeditor_5.fields import CKEditor5Field  
 from django.utils.safestring import mark_safe
-from django.core.exceptions import ValidationError  
+from django.core.exceptions import ValidationError
+from core.models import CustomUser  
 
 class Category(models.Model):  
     name = models.CharField(max_length=255, unique=True, verbose_name='نام') 
@@ -85,3 +86,12 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name_plural = "تصویر"
         verbose_name = "تصاویر"
+
+class Comment(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='کاربر')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='کالای مرتبط')
+    text = models.TextField(max_length=300, verbose_name='متن')
+
+    class Meta:
+        verbose_name_plural = "دیدگاه"
+        verbose_name = "دیدگاه ها"
