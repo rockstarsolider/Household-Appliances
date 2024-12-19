@@ -11,6 +11,7 @@
         <p>کد تایید به شماره {{number}} ارسال شده است</p>
         {{form.otp}}
         {{form.name}}
+        <p class='mt-2'><span id="expire_time"></span></p> 
         <p class='text-red-500'>{{ message }}</p>
         {% if form.errors %}  
             <div class="text-red-500">  
@@ -20,4 +21,19 @@
         <button class='btn btn-primary w-full mt-6' type="submit">ثبت کد تایید</button>
     </form>
 </div>
+<script>  
+    var expire_time = {{ expire_time }}
+    function updateExpiration() {  
+        var minutes = String(Math.floor(expire_time / 60)).padStart(2, '0');  
+        var seconds = String(expire_time % 60).padStart(2, '0');
+        document.getElementById('expire_time').innerText = `مانده تا انقضای کد:  ${seconds} : ${minutes}`;
+        if (expire_time > 0){
+            expire_time--
+        } else {
+            document.getElementById('expire_time').innerText = `کد تایید منقضی شده است`;
+        }
+    }  
+    setInterval(updateExpiration, 1000);  
+    updateExpiration();  
+</script>
 {% endblock content %}

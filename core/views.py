@@ -21,7 +21,7 @@ class PhoneLogin(View):
             try:  
                 user = CustomUser.objects.get(phone_number=phone_number)  
                 mobile_otp = generate_otp()  
-                user.mobile_otp = mobile_otp  
+                user.mobile_otp = mobile_otp
                 user.otp_generated_at = datetime.now()  
                 user.save()  
                 print(f"کد تایید شماره تلفن: {mobile_otp}")  
@@ -84,9 +84,12 @@ class Register(View):
     def get(self, request, id):
         try:
             user = CustomUser.objects.get(id=id)
+            expiration_time = user.otp_generated_at + timedelta(minutes=2)  
+            remaining_time = expiration_time - timezone.now()
             context = {
                 'number': user.phone_number,
-                'form': RegisterForm()
+                'form': RegisterForm(),
+                'expire_time': round(max(remaining_time.total_seconds(), 0)),
             }
             return render(request, 'core/partial/register.html', context)
         except CustomUser.DoesNotExist:
@@ -96,9 +99,12 @@ class Register(View):
         try:
             form = RegisterForm(request.POST)
             user = CustomUser.objects.get(id=id)
+            expiration_time = user.otp_generated_at + timedelta(minutes=2)  
+            remaining_time = expiration_time - timezone.now()
             if form.is_valid():  
                 otp = form.cleaned_data['otp']  
                 name = form.cleaned_data['name'] 
+                print(otp)
                 if verify_otp(otp, user):
                     user.mobile_otp = None
                     user.is_active=True
@@ -111,7 +117,8 @@ class Register(View):
                     context = {
                         'number': user.phone_number,
                         'form': form,
-                        'message': 'کد تایید اشتباه است'
+                        'message': 'کد تایید اشتباه است',
+                        'expire_time': round(max(remaining_time.total_seconds(), 0)),
                     }
                     return render(request, 'core/partial/register.html', context)
             else:

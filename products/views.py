@@ -20,27 +20,29 @@ class ProductDetailView(DetailView):
     
     def post(self, request, pk):  
         form = CommentForm(request.POST)
+        product = Product.objects.get(pk=pk)
+        comments = Comment.objects.filter(product=product)
         
         if form.is_valid():
-            text = form.cleaned_data
+            text = form.cleaned_data['text']
             comment = Comment(
                 user=request.user,
-                product=Product.objects.get(id=pk),
+                product=product,
                 text=text
             )
             comment.save()
             context = {
-                'comments':Comment.objects.filter(product=Product.objects.get(pk=pk)),
+                'comments':comments,
                 'form': CommentForm(),
-                'product': Product.objects.get(pk=pk),
+                'product': product,
             }
             messages.success(request, 'نظر شما با موفقیت ثبت شد')
             return render(request, 'products/partial/comments.html', context)
 
         context = {
-            'comments':Comment.objects.filter(product=Product.objects.get(pk=pk)),
+            'comments':comments,
             'form': form,
-            'product': Product.objects.get(pk=pk),
+            'product': product,
         }
         return render(request, 'products/partial/comments.html', context)
 

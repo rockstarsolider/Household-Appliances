@@ -7,8 +7,8 @@
 
     <div class="breadcrumbs text-sm my-4">
         <ul>
-          <li><a>خانه</a></li>
-          <li><a>{{product.category}}</a></li>
+          <li><a hx-get='{% url 'home' %}' hx-target='body' hx-push-url='true'>خانه</a></li>
+          <li><a hx-get='{% url 'products' %}?category={{product.category.id}}' hx-target='body' hx-push-url='true'>{{product.category}}</a></li>
           <li class='text-primary'>{{product.name}}</li>
         </ul>
     </div>
@@ -73,7 +73,16 @@
                         </svg>
                         <p>تعداد موجودی: {{product.stock}}<p>
                     </div>
-                    <p class="font-medium text-lg">{{product.formatted_price}}</p>              
+                    <div class='flex gap-2'>
+                        {% if product.stock == 0 %}
+                            <p class="font-medium text-lg text-gray-500">ناموجود</p>
+                        {% elif product.special_price %}
+                            <p class="font-medium text-lg">{{product.formatted_special_price}}</p>
+                            <p class="font-medium text-lg line-through">{{product.formatted_price}}</p>  
+                        {% else %}
+                            <p class="font-medium text-lg">{{product.formatted_price}}</p> 
+                        {% endif %}
+                    </div>             
                 </div>
                 <button class="btn btn-primary mt-4 w-full">افزودن به سبد خرید</button>
                 <div class="flex mt-4 gap-2 items-center">
