@@ -19,7 +19,7 @@
             <div class="relative">  
                 <!-- Carousel Main Image -->  
                 <div id="main_image_con" class="overflow-hidden">  
-                    <img id="main-image" class="mx-auto object-cover transition-opacity duration-300 border border-gray-200 rounded-lg w-full xl:w-[30rem] 2xl:w-[35rem]" 
+                    <img id="main-image" class=" object-cover transition-opacity duration-300 border border-gray-200 rounded-lg w-full xl:w-[30rem] 2xl:w-[35rem]" 
                         src="{{product.image.url}}">  
                 </div> 
             </div>  
@@ -43,20 +43,6 @@
         <div class="xl:w-[30rem] 2xl:w-[40rem] flex flex-col gap-4">
             <h2 class="font-medium text-xl border-b border-gray-300 pb-2">{{product.name}}</h2>
             <p>{{product.description|safe}}</p>
-            {% comment %} <p class="font-medium text-lg">اندازه: 2XL</p>
-            <div class="flex gap-4 justify-start items-center -mt-2">
-                <select class="select select-bordered w-52">
-                    <option>2XL</option>
-                    <option>M</option>
-                </select>
-                <a class="cursor-pointer text-primary text-sm" href="#">راهنمای انتخاب سایز</a>
-            </div>
-            <div class="text-primary text-sm flex gap-2 items-center cursor-pointer" >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg> 
-                <p>خریداران درباره اندازه چه گفته اند؟</p>                 
-            </div> {% endcomment %}
             <p class="font-medium text-lg">ویژگی ها</p>
             <div class="grid grid-cols-3 gap-2">
                 <div class="bg-gray-200 p-2 rounded">
@@ -107,25 +93,8 @@
     </div>
 
     <!-- Commments -->
-    <div class='w-full mt-20'>
-        <h3 class='font-medium text-center text-2xl mt-28'>دیدگاه ها</h3>
-        <!-- Enter a comment -->
-        <form method='post' hx-post='{% url 'product' product.id %}' hx-target='#comments' class='flex gap-4 w-full mt-4'>
-            {% csrf_token %}
-            {% if user.is_authenticated %}
-                {{form.text}}
-                {% if form.errors %}  
-                    <div class="text-red-500">  
-                        {{ form.errors }}  
-                    </div>  
-                {% endif %}
-                <button class='btn btn-primary'>ارسال دیدگاه</button>
-            {% endif %}
-        </form>
-
-        <div id='comments'>
-            {% include "products/partial/comments.html" %}
-        </div>
+    <div id='comments' class='mt-20 lg:w-[50%] 2xl:w-[40%] lg:mx-auto'>
+        {% include "products/partial/comments.html" %}
     </div>
 
     <!-- Footer -->

@@ -4,10 +4,10 @@ from django.core.exceptions import ValidationError
 class CommentForm(forms.Form):  
     text = forms.CharField(
         max_length=300,
-        widget=forms.TextInput(attrs={ 'placeholder': 'دیدگاه خود را وارد کنید...', 'class': 'input input-bordered w-full'}),  
+        widget=forms.Textarea(attrs={ 'placeholder': 'دیدگاه خود را وارد کنید...', 'class': 'textarea input-bordered w-full ', 'rows':'4'}),  
     ) 
 
-    def clean(self):
+    def clean_text(self):
         text = self.cleaned_data.get('text')  
 
         if len(text) < 10:

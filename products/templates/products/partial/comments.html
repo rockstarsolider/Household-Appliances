@@ -1,15 +1,38 @@
+<h3 class='font-medium text-center text-2xl mt-28'>دیدگاه ها</h3>
+
+<!-- Enter a comment -->
+<form method='post' hx-post='{% url 'product' product.id %}' hx-target='#comments' class='w-full mt-4'>
+    {% csrf_token %}
+    {% if user.is_authenticated %}
+        {{form.text}}
+        {% if form.text.errors %}  
+            <div class="error">  
+                {% for error in form.text.errors %}  
+                    <p class='text-red-500'>{{ error }}</p>  
+                {% endfor %}  
+            </div>  
+        {% endif %}
+        <button class='btn btn-primary mt-2'>ارسال دیدگاه</button>
+    {% endif %}
+</form>
+
+<!-- List of comments -->
 {% if comments %}
-    <div class=' border-t border-gray-300 mt-4'>
+    <div class='mt-4'>
         {% for comment in comments %}
-            <div class='flex gap-3 items-center py-3 border-b border-gray-300'>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>  
-                <p class='font-medium text-lg'>{{comment.user.name}}:</p>                        
-                <p>{{comment.text}}</p>                        
+            <div class='pb-3 pt-3 border-b border-gray-300'>
+                <div class='flex gap-3 items-center'>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>  
+                    <p class='font-medium'>{{comment.user.name}}</p>
+                </div>                        
+                <p class='mt-2 text-neutral'>{{comment.text}}</p>                        
             </div>
         {% endfor %}
     </div>
 {% else %}
-    <p class='font-medium text-lg text-center mt-2'>دیدگاهی موجود نیست. اولین نظر را شما بنویسید!</p>     
+    <p class='font-medium text-lg text-center mt-4'>دیدگاهی موجود نیست. اولین نظر را شما بنویسید!</p>     
 {% endif %}
+
+{% include "core/partial/toast.html" %}

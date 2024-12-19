@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import DetailView, View
 from .models import Product, ProductImage, Category, Brand, Comment
 from .forms import CommentForm
+from django.contrib import messages
 
 # Create your views here.
 class ProductDetailView(DetailView):  
@@ -28,9 +29,20 @@ class ProductDetailView(DetailView):
                 text=text
             )
             comment.save()
-            return render(request, 'products/partial/comments.html', {'comments':Comment.objects.filter(Product.objects.get(id=pk))})
-        
-        return render(request, 'products/partial/comments.html', {'comments':Comment.objects.filter(Product.objects.get(id=pk))})
+            context = {
+                'comments':Comment.objects.filter(product=Product.objects.get(pk=pk)),
+                'form': CommentForm(),
+                'product': Product.objects.get(pk=pk),
+            }
+            messages.success(request, 'نظر شما با موفقیت ثبت شد')
+            return render(request, 'products/partial/comments.html', context)
+
+        context = {
+            'comments':Comment.objects.filter(product=Product.objects.get(pk=pk)),
+            'form': form,
+            'product': Product.objects.get(pk=pk),
+        }
+        return render(request, 'products/partial/comments.html', context)
 
 class ProductListView(View):
     def get(self, request):
