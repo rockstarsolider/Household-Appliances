@@ -3,6 +3,7 @@ from django.views.generic import DetailView, View
 from .models import Product, ProductImage, Category, Brand, Comment
 from .forms import CommentForm
 from django.contrib import messages
+from django.db.models import Case, When, IntegerField  
 
 # Create your views here.
 class ProductDetailView(DetailView):  
@@ -48,7 +49,13 @@ class ProductDetailView(DetailView):
 
 class ProductListView(View):
     def get(self, request):
-        products = Product.objects.all()
+        products = Product.objects.annotate(  
+            in_stock_order=Case(  
+                When(stock__gt=0, then=0),   # If stock is greater than 0, assign order 0  
+                When(stock=0, then=1),       # If stock is 0, assign order 1  
+                output_field=IntegerField()   # Specify output field type  
+            )  
+        ).order_by('in_stock_order', '-published_at')
 
         selected_category = request.GET.get('category')
         selected_brand = request.GET.get('brand')
@@ -62,12 +69,12 @@ class ProductListView(View):
         if selected_category: products = products.filter(category=selected_category)
         if selected_brand: products = products.filter(brand=selected_brand)
         if selected_portable == 'true': products = products.filter(portable=True)
-        if selected_discount == 'true': products = products.filter(special_price__isnull=False)
+        if selected_discount == 'true': products = products.filter(special_price__isnull=False, stock__gt=0)
         if selected_stock == 'true': products = products.filter(stock__gt=0)
         if selected_from: products = products.filter(price__gte=selected_from)
         if selected_to: products = products.filter(price__lte=selected_to)
-        if selected_order == 'cheapest': products = products.order_by('-price')
-        if selected_order == 'expensive': products = products.order_by('price')
+        if selected_order == 'cheapest': products = products.order_by('in_stock_order', 'price')
+        if selected_order == 'expensive': products = products.order_by('in_stock_order', '-price')
 
         context = {
             'products': products,

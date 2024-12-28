@@ -3,11 +3,12 @@ from django.contrib.auth import login, logout
 from .models import CustomUser
 from .utils import generate_otp, verify_otp
 from django.views.generic import View
-from datetime import datetime, timedelta
+from datetime import timedelta
 from django.utils import timezone
 from django.contrib import messages
 from .forms import PhoneNumberForm, RegisterForm
 from threading import Timer  
+from .tasks import send_sms_task
 
 class PhoneLogin(View):  
     def get(self, request):  
@@ -22,9 +23,9 @@ class PhoneLogin(View):
                 user = CustomUser.objects.get(phone_number=phone_number)  
                 mobile_otp = generate_otp()  
                 user.mobile_otp = mobile_otp
-                user.otp_generated_at = datetime.now()  
+                user.otp_generated_at = timezone.now()  
                 user.save()  
-                print(f"کد تایید شماره تلفن: {mobile_otp}")  
+                send_sms_task.delay(phone_number, mobile_otp)
                 return redirect('verify_otp', user_id=user.id)  
 
             except CustomUser.DoesNotExist:  
@@ -33,9 +34,9 @@ class PhoneLogin(View):
                     phone_number=phone_number,  
                     is_active=False,
                     mobile_otp = otp,
-                    otp_generated_at = datetime.now(),
+                    otp_generated_at = timezone.now(),
                 )
-                print(f"کد تایید شماره تلفن: {otp}")
+                send_sms_task.delay(phone_number, otp)
                 Timer(120, self.delete_user, args=[user.id]).start()  
                 return redirect('register', id=user.id)  
         else:  
@@ -103,8 +104,7 @@ class Register(View):
             remaining_time = expiration_time - timezone.now()
             if form.is_valid():  
                 otp = form.cleaned_data['otp']  
-                name = form.cleaned_data['name'] 
-                print(otp)
+                name = form.cleaned_data['name']
                 if verify_otp(otp, user):
                     user.mobile_otp = None
                     user.is_active=True
