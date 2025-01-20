@@ -7,8 +7,8 @@
 
     <div class="breadcrumbs text-sm my-4">
         <ul>
-          <li><a hx-get='{% url 'home' %}' hx-target='body' hx-push-url='true'>خانه</a></li>
-          <li><a hx-get='{% url 'products' %}?category={{product.category.id}}' hx-target='body' hx-push-url='true'>{{product.category}}</a></li>
+          <li><a hx-get='{% url 'home' %}' hx-target='body' hx-swap='outerHTML transition:true' hx-push-url='true'>خانه</a></li>
+          <li><a hx-get='{% url 'products' %}?category={{product.category.id}}' hx-swap='outerHTML transition:true' hx-target='body' hx-push-url='true'>{{product.category}}</a></li>
           <li class='text-primary'>{{product.name}}</li>
         </ul>
     </div>

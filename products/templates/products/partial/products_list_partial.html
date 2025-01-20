@@ -2,7 +2,7 @@
     {% if products %}
         <!-- Products -->
         {% for product in products %}
-            <a hx-get='{% url 'product' product.id %}' hx-push-url='true' hx-target='body' class="w-full cursor-pointer lg:w-64 flex lg:flex-col mt-4 border border-gray-300 rounded-xl">
+            <a hx-get='{% url 'product' product.id %}' hx-swap='outerHTML transition:true' hx-push-url='true' hx-target='body' class="w-full cursor-pointer lg:w-64 flex lg:flex-col mt-4 border border-gray-300 rounded-xl">
                 <img class="p-3 size-32 lg:size-64 rounded-3xl" src="{{product.image.url}}"/>
                 <div class="w-full flex flex-col justify-between p-3">  
                     <p class="font-medium h-10">{{product.name}}</p>

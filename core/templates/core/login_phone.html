@@ -2,9 +2,9 @@
 
 {% block content %}
 <div id='container' class='w-full justify-center items-center flex flex-col h-screen'>
-    <form method="post" hx-post='{% url "login_phone"  %}' hx-target='body' hx-push-url='true' class='flex flex-col gap-2 w-full p-3 lg:w-96 lg:p-6 lg:border lg:border-gray-300 rounded-lg my-auto'>
+    <form method="post" hx-post='{% url "login_phone"  %}' hx-target='body' hx-push-url='true' hx-swap='outerHTML transition:true' class='flex flex-col gap-2 w-full p-3 lg:w-96 lg:p-6 lg:border lg:border-gray-300 rounded-lg my-auto'>
         {% csrf_token %}
-        <a href='{% url 'home' %}'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 cursor-pointer">
+        <a hx-get='{% url 'home' %}' hx-target='body' hx-push-url='true' hx-swap='outerHTML transition:true'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 cursor-pointer">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
         </svg></a>
         <h3 class='font-medium text-lg'>ورود | ثبت نام</h3>
@@ -15,7 +15,8 @@
                 {{ form.phone_number.errors }}  
             </div>  
         {% endif %}  
-        <button class='btn btn-primary w-full mt-6' type="submit">ورود</button>
+        <button class='btn btn-primary w-full mt-3' type="submit">ورود</button>
+        <p hx-get='{% url "login_email"  %}' hx-target='body' hx-push-url='true' hx-swap='outerHTML transition:true' class='link w-full text-center mt-2'>ورود با ایمیل</p>
     </form>
 </div>
 {% endblock content %}

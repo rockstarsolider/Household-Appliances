@@ -24,6 +24,52 @@ class PhoneNumberForm(forms.Form):
             return normalized_number  
         else:  
             raise ValidationError('لطفا یک شماره تلفن معتبر وارد کنید.')
+        
+class EmailForm(forms.Form):  
+    email = forms.CharField(  
+        max_length=100,  
+        widget=forms.TextInput(attrs={  
+            'placeholder': 'ایمیل',  
+            'class': 'input input-bordered w-full mt-4',  
+        }),  
+        required=True  
+    )  
+    password = forms.CharField(  
+        widget=forms.PasswordInput(attrs={  
+            'placeholder': 'رمز عبور',  
+            'class': 'input input-bordered w-full mt-4',  
+        }),  
+        required=True,  
+          # Minimum length for password  
+    )  
+
+    def clean_email(self):  
+        email = self.cleaned_data.get('email')  
+        if email:  
+            # Basic validation to check if the input is a valid email format  
+            if not self.is_valid_email(email):  
+                raise ValidationError("فرمت ایمیل نامعتبر است.")  
+        return email  
+
+    def clean_password(self):  
+        password = self.cleaned_data.get('password')  
+        if password:  
+            # Custom validation for the password  
+            if not self.is_valid_password(password):  
+                raise ValidationError("رمز عبور باید حداقل 8 کاراکتر شامل حروف بزرگ و کوچک و اعداد باشد.")  
+        return password  
+
+    def is_valid_email(self, email):  
+        # Regex pattern for basic email validation  
+        pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'  
+        return re.match(pattern, email) is not None  
+
+    def is_valid_password(self, password):  
+        # Check if password has at least one lowercase, one uppercase, and one number  
+        return (len(password) >= 8 and  
+                re.search(r'[A-Z]', password) and  
+                re.search(r'[a-z]', password) and  
+                re.search(r'[0-9]', password))  
 
 class RegisterForm(forms.Form):  
     otp = forms.CharField(  

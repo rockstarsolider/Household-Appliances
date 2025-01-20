@@ -6,7 +6,7 @@ services:
     build:
       context: .
     command: python manage.py runserver 0.0.0.0:8000
-    ports:
+    ports:  
       - 8001:8000
     environment:
       - DEBUG=1
@@ -15,6 +15,8 @@ services:
       - KAVENEGAR_KEY=7644756F7A6C706C6A5339314277482F63786853624842716C38677173693856412F2F5263426F6B6531513D
     depends_on:
       - redis
+    volumes:
+      - .:/usr/src/app
   celery:
     container_name: celery1
     build:

@@ -110,7 +110,7 @@
     function htmxRequest(url) {
         window.history.pushState({}, '', url);
         var productsUrl = "{% url 'products' %}?" + url.searchParams.toString();  
-        htmx.ajax('GET', productsUrl, { target: 'body' }); 
+        htmx.ajax('GET', productsUrl, { target: 'body', }); 
     }  
 </script>
 

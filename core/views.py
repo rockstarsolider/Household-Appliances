@@ -1,12 +1,12 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login, logout, authenticate
 from .models import CustomUser
 from .utils import generate_otp, verify_otp
 from django.views.generic import View
 from datetime import timedelta
 from django.utils import timezone
 from django.contrib import messages
-from .forms import PhoneNumberForm, RegisterForm
+from .forms import PhoneNumberForm, RegisterForm, EmailForm
 from threading import Timer  
 from .tasks import send_sms_task
 
@@ -18,18 +18,22 @@ class PhoneLogin(View):
     def post(self, request):  
         form = PhoneNumberForm(request.POST)  
         if form.is_valid():  
-            phone_number = form.cleaned_data['phone_number']  
+            phone_number = form.cleaned_data['phone_number']
+ 
             try:  
                 user = CustomUser.objects.get(phone_number=phone_number)  
+                if not user.is_active:
+                    return redirect('register', id=user.id)
                 mobile_otp = generate_otp()  
+                print(mobile_otp)
                 user.mobile_otp = mobile_otp
                 user.otp_generated_at = timezone.now()  
                 user.save()  
                 send_sms_task.delay(phone_number, mobile_otp)
                 return redirect('verify_otp', user_id=user.id)  
-
             except CustomUser.DoesNotExist:  
                 otp = generate_otp()
+                print(otp)
                 user = CustomUser.objects.create(  
                     phone_number=phone_number,  
                     is_active=False,
@@ -38,7 +42,8 @@ class PhoneLogin(View):
                 )
                 send_sms_task.delay(phone_number, otp)
                 Timer(120, self.delete_user, args=[user.id]).start()  
-                return redirect('register', id=user.id)  
+                return redirect('register', id=user.id) 
+
         else:  
             return render(request, 'core/login_phone.html', {'form': form})
     
@@ -48,7 +53,31 @@ class PhoneLogin(View):
             if not user.is_active:
                 user.delete()
         except CustomUser.DoesNotExist:  
-            pass 
+            pass
+
+class EmailLogin(View):
+    def get(self, request):
+        form = EmailForm()
+        return render(request, 'core/partial/login_email.html', {'form': form})
+    def post(self, request):
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            try:
+                user = CustomUser.objects.get(email=email)
+                user = authenticate(request, phone_number=user.phone_number, password=password)
+                login(request, user)
+                messages.success(request, 'کاربر عزیز خوش آمدید')
+                return redirect('home')
+            except CustomUser.DoesNotExist:
+                context = {
+                    'form': form,
+                    'message': 'ایمیل یا رمز عبور نادرست است'
+                }
+                return render(request, 'core/partial/login_email.html', context)
+        else:
+            return render(request, 'core/partial/login_email.html', {'form': form})
 
 def verify_OTP(request, user_id):
     user = CustomUser.objects.get(id=user_id)
@@ -87,6 +116,9 @@ class Register(View):
             user = CustomUser.objects.get(id=id)
             expiration_time = user.otp_generated_at + timedelta(minutes=2)  
             remaining_time = expiration_time - timezone.now()
+            if expiration_time <= timezone.now():
+                user.delete()
+                return redirect('login_phone')
             context = {
                 'number': user.phone_number,
                 'form': RegisterForm(),
