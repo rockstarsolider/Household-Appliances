@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'core',
     'products',
     'home',
+    'dashboard',
 
     # Third party packages
     'django_cleanup.apps.CleanupConfig',

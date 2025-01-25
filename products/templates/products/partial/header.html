@@ -22,7 +22,8 @@
                     </svg>
                 </summary>
                 <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 relative shadow">
-                    <li><a>{{user.phone_number}}</a></li>
+                    <li><a>{{user.name}}</a></li>
+                    <li><a hx-get='{% url 'setting' %}' hx-target='body' hx-push-url='true' hx-swap='outerHTML transition:true'>تنظیمات</a></li>
                     <li><a href='{% url 'logout' %}'>خروج</a></li>
                 </ul>
             </details>

@@ -1,0 +1,39 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<div dir="rtl" class="px-2 md:px-8 2xl:px-[10%]">
+    {% include "products/partial/header.html" %}
+
+    <h2 class='text-2xl font-medium mt-10'>تنظیمات</h2>  
+  
+    <form method="post" hx-post='{% url 'setting' %}' hx-target='body' class='mt-6 w-96 flex flex-col'>   
+        {% csrf_token %}  
+
+        <label>ایمیل:</label>
+        {{ user_form.email }}  
+        {% if user_form.email.errors %}  
+            <p class="text-red-600">{{ user_form.email.errors }}</p>  
+        {% endif %}
+
+        <label>{{password_form.password1.label}}</label>
+        {{ password_form.password1 }}
+        {% if password_form.new_password1.errors %}  
+            <p class="text-red-600">{{ password_form.new_password1.errors }}</p>  
+        {% endif %}
+
+        <label>{{password_form.password2.label}}</label>
+        {{ password_form.password2 }}
+        {% if password_form.new_password2.errors %}  
+            <p class="text-red-600">{{ password_form.new_password2.errors }}</p>  
+        {% endif %}
+
+        <button type="submit" class='btn btn-primary mt-4'>ثبت تغییرات</button>  
+    </form>  
+
+    {% include "products/partial/footer.html" %}
+
+    <section id='messages'>
+        {%include 'core/partial/toast.html'%}
+    </section>
+</div>
+{% endblock %}
