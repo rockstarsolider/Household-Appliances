@@ -1332,6 +1332,19 @@ html {
 .select[multiple] {
   height: auto;
 }  
+.stat {
+  display: inline-grid;
+  width: 100%;
+  grid-template-columns: repeat(1, 1fr);
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+  border-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-border-opacity)));
+  --tw-border-opacity: 0.1;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}  
 .tabs {
   display: grid;
   align-items: flex-end;
@@ -2528,8 +2541,32 @@ details.collapse summary::-webkit-details-marker {
 .top-5 {
   top: 1.25rem;
 }  
+.right-4 {
+  right: 1rem;
+}  
+.top-3 {
+  top: 0.75rem;
+}  
+.right-3 {
+  right: 0.75rem;
+}  
+.right-10 {
+  right: 2.5rem;
+}  
+.right-32 {
+  right: 8rem;
+}  
+.top-0 {
+  top: 0px;
+}  
+.bottom-3 {
+  bottom: 0.75rem;
+}  
 .z-\[1\] {
   z-index: 1;
+}  
+.z-30 {
+  z-index: 30;
 }  
 .m-1 {
   margin: 0.25rem;
@@ -2557,6 +2594,14 @@ details.collapse summary::-webkit-details-marker {
 .my-auto {
   margin-top: auto;
   margin-bottom: auto;
+}  
+.my-10 {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}  
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }  
 .mb-12 {
   margin-bottom: 3rem;
@@ -2669,6 +2714,18 @@ details.collapse summary::-webkit-details-marker {
   width: 1.75rem;
   height: 1.75rem;
 }  
+.size-16 {
+  width: 4rem;
+  height: 4rem;
+}  
+.size-12 {
+  width: 3rem;
+  height: 3rem;
+}  
+.size-14 {
+  width: 3.5rem;
+  height: 3.5rem;
+}  
 .h-10 {
   height: 2.5rem;
 }  
@@ -2754,6 +2811,12 @@ details.collapse summary::-webkit-details-marker {
 .grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }  
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}  
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}  
 .flex-col {
   flex-direction: column;
 }  
@@ -2802,6 +2865,9 @@ details.collapse summary::-webkit-details-marker {
 .gap-6 {
   gap: 1.5rem;
 }  
+.gap-8 {
+  gap: 2rem;
+}  
 .overflow-hidden {
   overflow: hidden;
 }  
@@ -2841,6 +2907,9 @@ details.collapse summary::-webkit-details-marker {
 .border-r {
   border-right-width: 1px;
 }  
+.border-t {
+  border-top-width: 1px;
+}  
 .border-none {
   border-style: none;
 }  
@@ -2863,6 +2932,10 @@ details.collapse summary::-webkit-details-marker {
 .border-white {
   --tw-border-opacity: 1;
   border-color: rgb(255 255 255 / var(--tw-border-opacity));
+}  
+.border-gray-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(156 163 175 / var(--tw-border-opacity));
 }  
 .bg-base-100 {
   --tw-bg-opacity: 1;
@@ -2892,6 +2965,10 @@ details.collapse summary::-webkit-details-marker {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }  
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}  
 .object-contain {
   -o-object-fit: contain;
      object-fit: contain;
@@ -2915,6 +2992,12 @@ details.collapse summary::-webkit-details-marker {
 .p-5 {
   padding: 1.25rem;
 }  
+.p-6 {
+  padding: 1.5rem;
+}  
+.p-1 {
+  padding: 0.25rem;
+}  
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -2926,6 +3009,10 @@ details.collapse summary::-webkit-details-marker {
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+}  
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }  
 .pb-2 {
   padding-bottom: 0.5rem;
@@ -2944,6 +3031,18 @@ details.collapse summary::-webkit-details-marker {
 }  
 .pt-4 {
   padding-top: 1rem;
+}  
+.pb-4 {
+  padding-bottom: 1rem;
+}  
+.pb-8 {
+  padding-bottom: 2rem;
+}  
+.pb-6 {
+  padding-bottom: 1.5rem;
+}  
+.pt-6 {
+  padding-top: 1.5rem;
 }  
 .text-center {
   text-align: center;
@@ -2993,6 +3092,10 @@ details.collapse summary::-webkit-details-marker {
   --tw-text-opacity: 1;
   color: rgb(34 197 94 / var(--tw-text-opacity));
 }  
+.text-green-600 {
+  --tw-text-opacity: 1;
+  color: rgb(22 163 74 / var(--tw-text-opacity));
+}  
 .text-neutral {
   --tw-text-opacity: 1;
   color: var(--fallback-n,oklch(var(--n)/var(--tw-text-opacity)));
@@ -3009,6 +3112,18 @@ details.collapse summary::-webkit-details-marker {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity));
 }  
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity));
+}  
+.text-green-700 {
+  --tw-text-opacity: 1;
+  color: rgb(21 128 61 / var(--tw-text-opacity));
+}  
+.text-green-300 {
+  --tw-text-opacity: 1;
+  color: rgb(134 239 172 / var(--tw-text-opacity));
+}  
 .line-through {
   text-decoration-line: line-through;
 }  
@@ -3022,6 +3137,13 @@ details.collapse summary::-webkit-details-marker {
 }  
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}  
+.transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }  
 .transition-opacity {
   transition-property: opacity;
@@ -3097,6 +3219,10 @@ details.collapse summary::-webkit-details-marker {
     display: flex;
   }
 
+  .lg\:grid {
+    display: grid;
+  }
+
   .lg\:hidden {
     display: none;
   }
@@ -3104,6 +3230,26 @@ details.collapse summary::-webkit-details-marker {
   .lg\:size-64 {
     width: 16rem;
     height: 16rem;
+  }
+
+  .lg\:size-32 {
+    width: 8rem;
+    height: 8rem;
+  }
+
+  .lg\:size-48 {
+    width: 12rem;
+    height: 12rem;
+  }
+
+  .lg\:size-44 {
+    width: 11rem;
+    height: 11rem;
+  }
+
+  .lg\:size-40 {
+    width: 10rem;
+    height: 10rem;
   }
 
   .lg\:w-1\/4 {
@@ -3128,6 +3274,10 @@ details.collapse summary::-webkit-details-marker {
 
   .lg\:w-\[50\%\] {
     width: 50%;
+  }
+
+  .lg\:w-1 {
+    width: 0.25rem;
   }
 
   .lg\:flex-row {

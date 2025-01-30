@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'products',
     'home',
     'dashboard',
+    'cart',
 
     # Third party packages
     'django_cleanup.apps.CleanupConfig',
@@ -73,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.cart_items_number'
             ],
         },
     },
