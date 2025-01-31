@@ -26,6 +26,9 @@
         {% if password_form.new_password2.errors %}  
             <p class="text-red-600">{{ password_form.new_password2.errors }}</p>  
         {% endif %}
+        {% if password_form.errors %}  
+            <p class="text-red-600">{{ password_form.errors }}</p>  
+        {% endif %}
 
         <button type="submit" class='btn btn-primary mt-4'>ثبت تغییرات</button>  
     </form>  

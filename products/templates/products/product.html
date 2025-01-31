@@ -40,7 +40,7 @@
         </div>
 
         <!-- Product Details -->
-        <div class="xl:w-[30rem] 2xl:w-[40rem] flex flex-col gap-4">
+        <div class="w-full xl:w-[30rem] 2xl:w-[40rem] flex flex-col gap-4">
             <h2 class="font-medium text-xl border-b border-gray-300 pb-2">{{product.name}}</h2>
             <p>{{product.description|safe}}</p>
             <p class="font-medium text-lg">ویژگی ها</p>
@@ -48,13 +48,6 @@
                 <div class="bg-gray-200 p-2 rounded">
                     <p class="text-gray-500">دسته بندی</p>
                     <p>{{product.category}}</p>
-                </div>
-                <div class="bg-gray-200 p-2 rounded">
-                    <p class="text-gray-500">رنگ</p>
-                    <div class='flex gap-1 items-center'>
-                        <div class='h-4 w-4 rounded-full bg-[{{product.color.color_code}}]'></div>
-                        <p>{{product.color}}</p>
-                    </div>
                 </div>
                 <div class="bg-gray-200 p-2 rounded">
                     <p class="text-gray-500">برند</p>
@@ -66,7 +59,7 @@
                 </div>
             </div>
             <div class="border border-gray-300 rounded-md p-4 mb-2">
-                <div class="flex justify-between">
+                <div class="flex flex-col gap-2 justify-between">
                     <div class='flex gap-1 items-start'>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
@@ -86,6 +79,7 @@
                 </div>
                 <button 
                     class="btn btn-primary mt-4 w-full" 
+                    disabled
                     hx-get='{% url 'add_to_cart' product.id %}' 
                     hx-target="body">افزودن به سبد خرید</button>
                 <div class="flex mt-4 gap-2 items-center">

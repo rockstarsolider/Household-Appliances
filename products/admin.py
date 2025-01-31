@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category, Brand, Color, ProductImage, Comment
+from .models import Product, Category, Brand, ProductImage, Comment
 from django.utils.html import format_html
 
 # Register your models here.
@@ -40,5 +40,4 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Brand)
-admin.site.register(Color)
 admin.site.register(Comment, CommentAdmin)

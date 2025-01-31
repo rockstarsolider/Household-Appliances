@@ -16,16 +16,6 @@ class Category(models.Model):
         verbose_name_plural = "دسته بندی ها"
         verbose_name = "دسته بندی"
         ordering = ["-created_at"]
-    
-class Color(models.Model):
-    title = models.CharField(max_length=255, verbose_name='نام')
-    color_code = models.CharField(max_length=10, verbose_name='کد رنگ')
-
-    class Meta:
-        verbose_name_plural = "رنگ"
-        verbose_name = "رنگ ها"
-    def __str__(self):  
-        return self.title
 
 class Brand(models.Model):
     title = models.CharField(max_length=255, verbose_name='نام')
@@ -47,8 +37,8 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(default=0, verbose_name='موجودی')  
     published_at = models.DateTimeField(verbose_name='منتشر شده در')
     portable = models.BooleanField(blank=True, null=True, verbose_name='قابلیت حمل')
-    color = models.ForeignKey(Color, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='رنگ')
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='برند')
+    shipment_price = models.PositiveBigIntegerField(default=45000 ,verbose_name='هزینه پست') 
 
     def __str__(self):  
         return self.name  

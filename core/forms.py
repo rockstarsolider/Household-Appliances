@@ -40,7 +40,6 @@ class EmailForm(forms.Form):
             'class': 'input input-bordered w-full mt-4',  
         }),  
         required=True,  
-          # Minimum length for password  
     )  
 
     def clean_email(self):  
@@ -55,21 +54,14 @@ class EmailForm(forms.Form):
         password = self.cleaned_data.get('password')  
         if password:  
             # Custom validation for the password  
-            if not self.is_valid_password(password):  
-                raise ValidationError("رمز عبور باید حداقل 8 کاراکتر شامل حروف بزرگ و کوچک و اعداد باشد.")  
+            if len(password) < 8:  
+                raise ValidationError("رمز عبور باید حداقل 8 کاراکتر باشد.")  
         return password  
 
     def is_valid_email(self, email):  
         # Regex pattern for basic email validation  
         pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'  
         return re.match(pattern, email) is not None  
-
-    def is_valid_password(self, password):  
-        # Check if password has at least one lowercase, one uppercase, and one number  
-        return (len(password) >= 8 and  
-                re.search(r'[A-Z]', password) and  
-                re.search(r'[a-z]', password) and  
-                re.search(r'[0-9]', password))  
 
 class RegisterForm(forms.Form):  
     otp = forms.CharField(  

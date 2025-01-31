@@ -59,7 +59,7 @@
                     <p>قیمت نهایی</p>
                     <p>{{final_price}}</p>
                 </div>
-                <button class='btn btn-primary w-full'>تکمیل سفارش</button>
+                <button hx-get='{% url 'order' %}' hx-target='body' hx-swap='outerHTML transition:true' hx-push-url='true' class='btn btn-primary w-full'>ثبت و تکمیل سفارش</button>
             </div>
         </div>
     </div>

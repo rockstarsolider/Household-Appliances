@@ -1,4 +1,8 @@
 from .models import CartItem
 
 def cart_items_number(request):
-    return {'cart_items_number': CartItem.objects.filter(user=request.user).count()}
+    if request.user.is_authenticated:
+        number = CartItem.objects.filter(user=request.user, order__isnull=True).count()
+    else:
+        number = 0
+    return {'cart_items_number': number}
