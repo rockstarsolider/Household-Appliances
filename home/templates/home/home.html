@@ -7,33 +7,39 @@
 
         <!-- Banners -->
         <div class="carousel w-full mt-6 rounded-xl">
-            <div id="slide1" class="carousel-item relative w-full">
-              <img
-                src="https://dkstatics-public.digikala.com/digikala-adservice-banners/1795b2340ba0eadf39c321165c2048a0e47aa6a2_1732911322.gif?x-oss-process=image?x-oss-process=image/format,webp"
-                class="w-full" />
-              <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-                <a href="#slide3" class="btn btn-circle">❮</a>
-                <a href="#slide2" class="btn btn-circle">❯</a>
+            {% if website_setting.banner_1 %}
+              <div id="slide1" class="carousel-item relative w-full">
+                <img
+                  src="{{website_setting.banner_1.url}}"
+                  class="w-full" />
+                <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                  <a href="#slide3" class="btn btn-circle">❮</a>
+                  <a href="#slide2" class="btn btn-circle">❯</a>
+                </div>
               </div>
-            </div>
-            <div id="slide2" class="carousel-item relative w-full">
-              <img
-                src="https://dkstatics-public.digikala.com/digikala-adservice-banners/d729fdcaaba2f677c19c58a8c163d545d0949c8a_1732716144.jpg?x-oss-process=image/quality,q_95/format,webp"
-                class="w-full" />
-              <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-                <a href="#slide1" class="btn btn-circle">❮</a>
-                <a href="#slide3" class="btn btn-circle">❯</a>
+            {% endif %}
+            {% if website_setting.banner_2 %}
+              <div id="slide2" class="carousel-item relative w-full">
+                <img
+                  src="{{website_setting.banner_2.url}}"
+                  class="w-full" />
+                <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                  <a href="#slide1" class="btn btn-circle">❮</a>
+                  <a href="#slide3" class="btn btn-circle">❯</a>
+                </div>
               </div>
-            </div>
-            <div id="slide3" class="carousel-item relative w-full">
-              <img
-                src="https://dkstatics-public.digikala.com/digikala-adservice-banners/6d35e00155f1deca98a5f560c21a9c6f8a5116cb_1732721111.gif?x-oss-process=image?x-oss-process=image/format,webp"
-                class="w-full" />
-              <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-                <a href="#slide2" class="btn btn-circle">❮</a>
-                <a href="#slide1" class="btn btn-circle">❯</a>
+            {% endif %}
+            {% if website_setting.banner_3 %}
+              <div id="slide3" class="carousel-item relative w-full">
+                <img
+                  src="{{website_setting.banner_3.url}}"
+                  class="w-full" />
+                <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                  <a href="#slide2" class="btn btn-circle">❮</a>
+                  <a href="#slide1" class="btn btn-circle">❯</a>
+                </div>
               </div>
-            </div>
+            {% endif %}
         </div>
 
         <!-- Latest products -->

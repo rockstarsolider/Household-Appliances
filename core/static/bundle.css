@@ -2441,6 +2441,9 @@ details.collapse summary::-webkit-details-marker {
   --togglehandleborder: 0 0 0 3px var(--fallback-bc,oklch(var(--bc)/1)) inset,
       var(--handleoffsetcalculator) 0 0 3px var(--fallback-bc,oklch(var(--bc)/1)) inset;
 }  
+.artboard.phone {
+  width: 320px;
+}  
 .btm-nav-xs > *:where(.active) {
   border-top-width: 1px;
 }  
@@ -2805,6 +2808,15 @@ details.collapse summary::-webkit-details-marker {
 }  
 .w-0 {
   width: 0px;
+}  
+.w-40 {
+  width: 10rem;
+}  
+.w-32 {
+  width: 8rem;
+}  
+.w-2 {
+  width: 0.5rem;
 }  
 .max-w-sm {
   max-width: 24rem;
@@ -3316,6 +3328,10 @@ details.collapse summary::-webkit-details-marker {
 
   .lg\:w-1 {
     width: 0.25rem;
+  }
+
+  .lg\:w-40 {
+    width: 10rem;
   }
 
   .lg\:max-w-9 {
