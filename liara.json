@@ -1,0 +1,7 @@
+{
+  "args": [
+    "sh",
+    "-c",
+    "sleep 10 && /entrypoint.sh run"
+  ]
+}
