@@ -75,6 +75,7 @@ class ProductListView(View):
         if selected_to: products = products.filter(price__lte=selected_to)
         if selected_order == 'cheapest': products = products.order_by('in_stock_order', 'price')
         if selected_order == 'expensive': products = products.order_by('in_stock_order', '-price')
+        if selected_order == 'popular': products = products.order_by('in_stock_order', '-number_of_sales')
 
         context = {
             'products': products,

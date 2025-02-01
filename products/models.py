@@ -39,6 +39,7 @@ class Product(models.Model):
     portable = models.BooleanField(blank=True, null=True, verbose_name='قابلیت حمل')
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='برند')
     shipment_price = models.PositiveBigIntegerField(default=45000 ,verbose_name='هزینه پست') 
+    number_of_sales = models.PositiveIntegerField(default=0, verbose_name='تعداد فروش')
 
     def __str__(self):  
         return self.name  

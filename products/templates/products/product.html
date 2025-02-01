@@ -79,7 +79,7 @@
                 </div>
                 <button 
                     class="btn btn-primary mt-4 w-full" 
-                    disabled
+                    {% if product.stock == 0 %}disabled{% endif %}
                     hx-get='{% url 'add_to_cart' product.id %}' 
                     hx-target="body">افزودن به سبد خرید</button>
                 <div class="flex mt-4 gap-2 items-center">

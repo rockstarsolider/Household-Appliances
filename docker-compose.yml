@@ -11,8 +11,8 @@ services:
     environment:
       - DEBUG=1
       - SECRET_KEY=Pouria1389
-      - ALLOWED_HOSTS=localhost,127.0.0.1
-      - KAVENEGAR_KEY=7644756F7A6C706C6A5339314277482F63786853624842716C38677173693856412F2F5263426F6B6531513D
+      - ALLOWED_HOSTS=localhost,127.0.0.1,asiagadget.liara.run
+      - MELLI_PAYAMAK_KEY=4b034bd6-9c2c-429e-a215-301a402a7ee5
     depends_on:
       - redis
     volumes:
@@ -25,8 +25,8 @@ services:
     environment:
       - DEBUG=1
       - SECRET_KEY=Pouria1389
-      - ALLOWED_HOSTS=localhost,127.0.0.1
-      - KAVENEGAR_KEY=7644756F7A6C706C6A5339314277482F63786853624842716C38677173693856412F2F5263426F6B6531513D
+      - ALLOWED_HOSTS=localhost,127.0.0.1,asiagadget.liara.run
+      - MELLI_PAYAMAK_KEY=4b034bd6-9c2c-429e-a215-301a402a7ee5
     depends_on:
       - redis
       - django

@@ -6,6 +6,9 @@ from products.models import Product
 from django.contrib import messages  
 from .forms import OrderForm
 import random
+from django.db.models import Sum 
+from django.db import transaction
+from core.tasks import send_sms_for_order_task
 
 # Create your views here.
 @login_required(login_url='/login_phone/')
@@ -40,6 +43,9 @@ def add_to_cart(request, product_id):
 def update_cart(request, item_id):  
     cart_item = CartItem.objects.get(id=item_id)  
     request_quantity = request.GET.get('quantity', cart_item.quantity)
+    if int(request_quantity) > cart_item.product.stock:
+        messages.error(request, "محصول انتخاب شده به اندازه کافی موجود نیست")  
+        return redirect('cart') 
     cart_item.quantity = request_quantity if int(request_quantity) > 0 else 1
     cart_item.save()  
     return redirect('cart')  
@@ -84,6 +90,40 @@ class OrderView(View):
         }
 
         if form.is_valid():  
+            # Updates the number of sales and reduce the quantity of each product ordered
+            cart_items = items.values('product').annotate(total_quantity=Sum('quantity'))   
+            products_to_update = []  
+            insufficient_stock_items = []  
+
+            try:  
+                with transaction.atomic():  
+                    for item in cart_items:  
+                        product = Product.objects.get(id=item['product'])  
+                        total_quantity = item['total_quantity']  
+
+                        # Check if there is enough stock available  
+                        if total_quantity > product.stock:  
+                            insufficient_stock_items.append(product.name)  
+                            continue  
+
+                        # Prepare updates for bulk processing  
+                        product.number_of_sales += total_quantity  
+                        product.stock -= total_quantity  # Update the stock instead of quantity  
+                        products_to_update.append(product)  
+
+                    # Perform bulk update if there are products to update  
+                    if products_to_update:  
+                        Product.objects.bulk_update(products_to_update, ['number_of_sales', 'stock'])  
+
+            except Product.DoesNotExist:  
+                messages.error(request, "Some products no longer exist.")  
+                return redirect('cart')  
+
+            if insufficient_stock_items:  
+                for product_name in insufficient_stock_items:  
+                    messages.error(request, f'محصول {product_name} به اندازه کافی موجود نیست')  
+                return redirect('cart')
+
             order = Order.objects.create(
                 user = request.user,
                 name = request.POST['name'],
@@ -100,6 +140,10 @@ class OrderView(View):
 class TransactionSuccess(View):
     def get(self, request):
         order = Order.objects.filter(user=request.user).last()
+
+        # Sending sms for user
+        send_sms_for_order_task.delay(order.user.phone_number, order.pk)
+
         context = {
             'transaction_id': order.transaction_id,
             'order_id': order.id
