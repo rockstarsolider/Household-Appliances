@@ -146,6 +146,6 @@ class TransactionSuccess(View):
 
         context = {
             'transaction_id': order.transaction_id,
-            'order_id': order.id
+            'order_id': order.pk
         }
         return render(request, 'cart/order_success.html', context)

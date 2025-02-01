@@ -28,6 +28,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_mobile_verified = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ عضویت')
     name = models.CharField(max_length=30, blank=True, verbose_name='نام ')
+    postal_code = models.CharField(max_length=10, null=True, blank=True, verbose_name='کد پستی')
+    shipment_address = models.TextField(null=True, blank=True, verbose_name='آدرس')
 
     USERNAME_FIELD = 'phone_number'  
     REQUIRED_FIELDS = []  

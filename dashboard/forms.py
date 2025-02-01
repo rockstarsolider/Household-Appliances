@@ -47,3 +47,34 @@ class CustomPasswordForm(forms.Form):
 
         # You can add more validations here as needed  
         return cleaned_data
+    
+class PersonalInfoForm(forms.Form):  
+    name = forms.CharField(
+        label='نام و نام خانوادگی:',  
+        widget=forms.TextInput(attrs={'class': 'input input-bordered w-full mb-4 mt-1'}),
+        required=False
+    )
+    shipping_address = forms.CharField(  
+        label='آدرس:',  
+        widget=forms.Textarea(attrs={'class': 'textarea input-bordered w-full mb-4 mt-1', 'rows': 3}), 
+        required=False 
+    )
+    postal_code = forms.CharField(  
+        label='کد پستی:',  
+        widget=forms.TextInput(attrs={'class': 'input input-bordered w-full mb-4 mt-1'}),  
+        required=False
+    )
+
+    def clean_postal_code(self):  
+        postal_code = self.cleaned_data.get('postal_code')  
+        if len(postal_code) != 10:
+            raise forms.ValidationError("طول کد پستی باید 10 رقم باشد")  
+        if not postal_code.isdigit():
+            raise forms.ValidationError("کد پستی باید فقط شامل اعداد باشد")
+        return postal_code 
+    def clean_name(self):  
+        name = self.cleaned_data.get('name')  
+        return name
+    def clean_shipping_address(self):  
+        shipping_address = self.cleaned_data.get('shipping_address')  
+        return shipping_address

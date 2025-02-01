@@ -4,34 +4,56 @@
 <div dir="rtl" class="px-2 md:px-8 2xl:px-[10%]">
     {% include "products/partial/header.html" %}
 
-    <h2 class='text-2xl font-medium mt-10'>تنظیمات</h2>  
+    <h2 class='text-3xl font-medium mt-10 w-full text-center'>تنظیمات</h2>  
   
-    <form method="post" hx-post='{% url 'setting' %}' hx-target='body' class='mt-6 w-96 flex flex-col'>   
-        {% csrf_token %}  
+    <div class='lg:flex justify-center items-start gap-24'>
+        <form method="post" hx-post='{% url 'setting' %}?type=account' hx-target='body' class='mt-4 flex flex-col lg:w-96'>   
+            {% csrf_token %}  
 
-        <label>ایمیل:</label>
-        {{ user_form.email }}  
-        {% if user_form.email.errors %}  
-            <p class="text-red-600">{{ user_form.email.errors }}</p>  
-        {% endif %}
+            <h2 class='font-medium text-xl mt-8'>اطلاعات حساب</h2>
+            <label class='mt-4'>ایمیل:</label>
+            {{ user_form.email }}  
+            {% if user_form.email.errors %}  
+                <p class="text-red-600">{{ user_form.email.errors }}</p>  
+            {% endif %}
 
-        <label>{{password_form.password1.label}}</label>
-        {{ password_form.password1 }}
-        {% if password_form.new_password1.errors %}  
-            <p class="text-red-600">{{ password_form.new_password1.errors }}</p>  
-        {% endif %}
+            <label>{{password_form.password1.label}}</label>
+            {{ password_form.password1 }}
+            {% if password_form.new_password1.errors %}  
+                <p class="text-red-600">{{ password_form.new_password1.errors }}</p>  
+            {% endif %}
 
-        <label>{{password_form.password2.label}}</label>
-        {{ password_form.password2 }}
-        {% if password_form.new_password2.errors %}  
-            <p class="text-red-600">{{ password_form.new_password2.errors }}</p>  
-        {% endif %}
-        {% if password_form.errors %}  
-            <p class="text-red-600">{{ password_form.errors }}</p>  
-        {% endif %}
+            <label>{{password_form.password2.label}}</label>
+            {{ password_form.password2 }}
+            {% if password_form.new_password2.errors %}  
+                <p class="text-red-600">{{ password_form.new_password2.errors }}</p>  
+            {% endif %}
+            {% if password_form.errors %}  
+                <p class="text-red-600">{{ password_form.errors }}</p>  
+            {% endif %}
 
-        <button type="submit" class='btn btn-primary mt-4'>ثبت تغییرات</button>  
-    </form>  
+            <button type="submit" class='btn btn-primary mt-4'>ثبت تغییرات</button>  
+        </form>  
+
+        <form method="post" hx-post='{% url 'setting' %}?type=personal' hx-target='body' class='flex flex-col lg:w-96'>
+            <h2 class='font-medium text-xl mt-12'>اطلاعات شخصی</h2>
+            {% csrf_token %} 
+             
+            <label class='mt-4'>{{personal_form.name.label}}</label>
+            {{ personal_form.name }}
+
+            <label>{{personal_form.postal_code.label}}</label>
+            {{ personal_form.postal_code }}
+            {% if personal_form.postal_code.errors %}  
+                <p class="text-red-600">{{ personal_form.postal_code.errors }}</p>  
+            {% endif %}
+
+            <label>{{personal_form.shipping_address.label}}</label>
+            {{ personal_form.shipping_address }}
+
+            <button type="submit" class='btn btn-primary mt-4'>ثبت تغییرات</button>  
+        </form>
+    </div>
 
     {% include "products/partial/footer.html" %}
 

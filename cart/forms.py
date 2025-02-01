@@ -26,8 +26,6 @@ class OrderForm(forms.Form):
             raise forms.ValidationError("کد پستی الزامی است")
         if len(postal_code) != 10:
             raise forms.ValidationError("طول کد پستی باید 10 رقم باشد")  
-        if not postal_code.isdigit():  
-            raise forms.ValidationError("کد پستی باید فقط شامل اعداد باشد")
         return postal_code    
 
     def clean_shipping_address(self):  
