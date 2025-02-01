@@ -1,7 +1,14 @@
 {
-  "args": [
-    "sh",
-    "-c",
-    "sleep 10 && /entrypoint.sh run"
+  "image": "redis:7.0.11-alpine",
+  "port": 8000,
+  "disks": [
+    {
+      "name": "media",
+      "mountTo": "/media"
+    },
+    {
+      "name": "data",
+      "mountTo": "/data"
+    }
   ]
 }

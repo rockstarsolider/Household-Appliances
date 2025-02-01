@@ -1,6 +1,8 @@
 services:  
   redis:
     image: redis:7.0.11-alpine
+    volumes:
+      - redis_data:/data
   django:
     container_name: django
     build:
@@ -30,3 +32,6 @@ services:
     depends_on:
       - redis
       - django
+
+volumes:  
+  redis_data:
