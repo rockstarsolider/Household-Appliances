@@ -65,6 +65,7 @@ class ProductListView(View):
         selected_from = request.GET.get('from')
         selected_to = request.GET.get('to')
         selected_order = request.GET.get('order')
+        search = request.GET.get('search')
         
         if selected_category: products = products.filter(category=selected_category)
         if selected_brand: products = products.filter(brand=selected_brand)
@@ -76,6 +77,7 @@ class ProductListView(View):
         if selected_order == 'cheapest': products = products.order_by('in_stock_order', 'price')
         if selected_order == 'expensive': products = products.order_by('in_stock_order', '-price')
         if selected_order == 'popular': products = products.order_by('in_stock_order', '-number_of_sales')
+        if search: products = products.filter(name__contains=search)
 
         context = {
             'products': products,

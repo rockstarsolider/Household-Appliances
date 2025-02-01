@@ -1,13 +1,16 @@
 <header class="flex justify-between items-center py-2">
     <div class='flex gap-4 justify-center items-center'>
-        <img hx-get='{% url 'home' %}' hx-swap='outerHTML transition:true' hx-target='body' hx-push-url='true' src='{{website_setting.logo.url}}' class='w-28 lg:w-40 cursor-pointer'/>
+        <img hx-get='{% url 'home' %}' hx-swap='outerHTML transition:true' hx-swap='outerHTML transition:true' hx-target='body' hx-push-url='true' src='{{website_setting.logo.url}}' class='w-28 lg:w-40 cursor-pointer'/>
         <!-- Search input -->
-        <label class="input input-bordered items-center gap-2 w-96 hidden lg:flex">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-5 w-5 opacity-70">
-                <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
-            </svg>
-            <input type="text" class="grow focus:ring-0 border-none"  placeholder="جستجو" />
-        </label>
+        <form hx-get='{% url 'products' %}' hx-target="body" hx-push-url='true' hx-swap='outerHTML transition:true' class="gap-2 hidden lg:flex">
+            <div class='input input-bordered items-center gap-2 w-80 flex'>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-5 w-5 opacity-70">
+                    <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+                </svg>
+                <input type="text" class="grow focus:ring-0 border-none" placeholder="جستجو" id='search' name="search"/>
+            </div>
+            <button class='btn btn-primary' type='submit'>جستجو</button>
+        </form>
     </div>
 
     <!-- Only visible on mobile -->

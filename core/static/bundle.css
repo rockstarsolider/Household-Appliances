@@ -2824,6 +2824,9 @@ details.collapse summary::-webkit-details-marker {
 .w-2 {
   width: 0.5rem;
 }  
+.w-80 {
+  width: 20rem;
+}  
 .max-w-sm {
   max-width: 24rem;
 }  
