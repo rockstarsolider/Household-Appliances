@@ -1,14 +1,15 @@
 {
-  "image": "redis:7.0.11-alpine",
+
   "port": 8000,
+  "platform": "django",
   "disks": [
     {
       "name": "media",
-      "mountTo": "/media"
+      "mountTo": "media"
     },
     {
       "name": "data",
-      "mountTo": "/data"
+      "mountTo": "data"
     }
   ]
 }
