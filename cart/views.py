@@ -8,7 +8,7 @@ from .forms import OrderForm
 import random
 from django.db.models import Sum 
 from django.db import transaction
-from core.tasks import send_sms_for_order_task
+from core.sms import send_order_sms_threaded
 
 # Create your views here.
 @login_required(login_url='/login_phone/')
@@ -142,7 +142,7 @@ class TransactionSuccess(View):
         order = Order.objects.filter(user=request.user).last()
 
         # Sending sms for user
-        send_sms_for_order_task.delay(order.user.phone_number, order.pk)
+        send_order_sms_threaded(order.user.phone_number, order.pk)
 
         context = {
             'transaction_id': order.transaction_id,

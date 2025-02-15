@@ -31,7 +31,11 @@ class ProductAdmin(admin.ModelAdmin):
 
     @admin.display(description='تصویر')  
     def image_tag(self, obj):
-        return format_html('<img src="{}" style="max-width:64px; max-height:64px"/>'.format(obj.image.url))
+        if obj.image.name != 'default.png':  
+            return format_html('<img src="{}" style="max-width:64px; max-height:64px"/>', obj.image.url)  
+        else:  
+            default_image_url = '/static/default.png'
+            return format_html('<img src="{}" style="max-width:64px; max-height:64px"/>', default_image_url)
     
     def save_model(self, request, obj, form, change):  
         obj.clean()  # Call the clean method  

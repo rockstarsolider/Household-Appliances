@@ -1,0 +1,3 @@
+{% load static %}  
+
+{% if product.image == 'default.png' %} {% static 'default.png' %} {% else %} {{ product.image.url }}{% endif %}

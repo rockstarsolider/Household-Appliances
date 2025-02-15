@@ -1,4 +1,5 @@
 {% extends "core/base.html" %}
+{% load static %}  
 
 {% block content %}
 <div dir="rtl" class="px-3 md:px-8 2xl:px-[10%]">
@@ -20,7 +21,7 @@
                 <!-- Carousel Main Image -->  
                 <div id="main_image_con" class="overflow-hidden">  
                     <img id="main-image" class=" object-cover transition-opacity duration-300 border border-gray-200 rounded-lg w-full xl:w-[30rem] 2xl:w-[35rem]" 
-                        src="{{product.image.url}}">  
+                        src="{% if product.image == 'default.png' %} {% static 'default.png' %} {% else %} {{ product.image.url }}{% endif %}">  
                 </div> 
             </div>  
         
@@ -28,8 +29,8 @@
             <div class="flex gap-2 mt-4 w-full overflow-x-auto overflow-y-hidden">  
                 <!-- Main image in thumbnails -->
                 <img class="thumbnail cursor-pointer w-28 h-28 object-cover rounded-lg border transition-transform duration-300 hover:scale-110"   
-                    src="{{product.image.url}}"
-                    onclick="changeImage('{{product.image.url}}')">
+                    src="{% if product.image == 'default.png' %} {% static 'default.png' %} {% else %} {{ product.image.url }}{% endif %}"
+                    onclick="changeImage('{% if product.image == 'default.png' %} {% static 'default.png' %} {% else %} {{ product.image.url }}{% endif %}')">
         
                 {% for image in images %}
                 <img class="thumbnail cursor-pointer w-28 h-28 object-cover rounded-lg border transition-transform duration-300 hover:scale-110"   

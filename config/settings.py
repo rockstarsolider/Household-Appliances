@@ -173,6 +173,3 @@ CKEDITOR_5_CONFIGS = {
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
 AUTH_USER_MODEL = 'core.CustomUser'  
-
-CELERY_BROKER_URL = os.environ.get("REDIS_URI", "redis://redis:6379/0")
-CELERY_RESULT_BACKEND = os.environ.get("REDIS_URI", "redis://redis:6379/0")

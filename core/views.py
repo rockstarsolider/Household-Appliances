@@ -8,7 +8,6 @@ from django.utils import timezone
 from django.contrib import messages
 from .forms import PhoneNumberForm, RegisterForm, EmailForm
 from threading import Timer  
-from .tasks import send_sms_task
 from .sms import send_otp_sms_threaded
 
 class PhoneLogin(View):  
@@ -41,7 +40,7 @@ class PhoneLogin(View):
                     mobile_otp = otp,
                     otp_generated_at = timezone.now(),
                 )
-                send_sms_task.delay(phone_number, otp)
+                send_otp_sms_threaded(phone_number, otp)
                 Timer(120, self.delete_user, args=[user.id]).start()  
                 return redirect('register', id=user.id) 
 
