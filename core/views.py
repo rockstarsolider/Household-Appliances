@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from .models import CustomUser
 from .utils import generate_otp, verify_otp
@@ -9,6 +9,7 @@ from django.contrib import messages
 from .forms import PhoneNumberForm, RegisterForm, EmailForm
 from threading import Timer  
 from .tasks import send_sms_task
+from .sms import send_otp_sms_threaded
 
 class PhoneLogin(View):  
     def get(self, request):  
@@ -29,7 +30,7 @@ class PhoneLogin(View):
                 user.mobile_otp = mobile_otp
                 user.otp_generated_at = timezone.now()  
                 user.save()  
-                send_sms_task.delay(phone_number, mobile_otp)
+                send_otp_sms_threaded(phone_number, mobile_otp)
                 return redirect('verify_otp', user_id=user.id)  
             except CustomUser.DoesNotExist:  
                 otp = generate_otp()
