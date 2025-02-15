@@ -34,11 +34,7 @@ def add_to_cart(request, product_id):
         order__isnull=True,
         defaults={'quantity': 1}  
     )  
-    if not created:  
-        cart_item.quantity += 1  
-        cart_item.save()  
-    messages.success(request, 'محصول به سبد خرید افزوده شد') 
-    return redirect('product', product_id)  
+    return render(request, 'products/partial/added_to_card_btn.html')
 
 def update_cart(request, item_id):  
     cart_item = CartItem.objects.get(id=item_id)  
