@@ -5,6 +5,9 @@ from .forms import CustomUserUpdateForm, CustomPasswordForm, PersonalInfoForm
 from django.contrib.auth import update_session_auth_hash  
 from django.contrib import messages   
 from core.models import CustomUser
+from cart.models import Order, CartItem
+from django.db.models import Sum
+from custom_translate.templatetags.persian_calendar_convertor import convert_to_persian_calendar_date, format_persian_date
 
 # Create your views here.
 class SettingView(LoginRequiredMixin, View):
@@ -58,3 +61,20 @@ class SettingView(LoginRequiredMixin, View):
                 return render(request, 'dashboard/setting.html', context)
             else:
                 return render(request, 'dashboard/setting.html', context)
+            
+class OrderListView(LoginRequiredMixin, View):
+    def get(self, request):
+        orders = Order.objects.filter(user=request.user).order_by('-order_date')
+        # Annotate each order with the total price calculated from its cart items  
+        orders = orders.annotate(total_cart_price=Sum('cartitem__quantity') * Sum('cartitem__product__price')).all()
+        for order in orders:  
+            order.date = format_persian_date(convert_to_persian_calendar_date(order.order_date))
+            cart_items = CartItem.objects.filter(order=order)  
+            order.products = [{'product_instance': item.product, 'quantity': item.quantity} for item in cart_items] 
+
+        # Retreives all products that user has in his order
+        
+        context = {
+            'orders': orders
+        }
+        return render(request, 'dashboard/orders_list.html', context)

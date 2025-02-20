@@ -83,6 +83,7 @@
                     {% if product.stock == 0 %}disabled{% endif %}
                     hx-get='{% url 'add_to_cart' product.id %}' 
                     hx-swap='outerHTML'
+                    hx-on="click: if(!user_authenticated) { window.location.href='/login_phone/'; }"
                     >افزودن به سبد خرید</button>
                 <div class="flex mt-4 gap-2 items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -115,6 +116,8 @@
         const mainImageCon = document.getElementById('main_image_con')  
         mainImageCon.innerHTML = `<img id="main-image" class="mx-auto object-cover w-full border border-gray-200 transition-opacity duration-300 rounded-lg" src="${imageUrl}">`
     }  
+
+    var user_authenticated = {{ user.is_authenticated|lower }}; // Pass the authentication status to JavaScript  
 </script> 
 
 {% endblock %}

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'home',
     'dashboard',
     'cart',
+    'custom_translate',
 
     # Third party packages
     'django_cleanup.apps.CleanupConfig',
@@ -173,3 +174,5 @@ CKEDITOR_5_CONFIGS = {
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
 AUTH_USER_MODEL = 'core.CustomUser'  
+
+LOGIN_URL = '/login_phone/'
