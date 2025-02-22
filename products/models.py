@@ -3,6 +3,28 @@ from django_ckeditor_5.fields import CKEditor5Field
 from django.utils.safestring import mark_safe
 from django.core.exceptions import ValidationError
 from core.models import CustomUser  
+from io import BytesIO
+from PIL import Image
+from django.core.files import File
+
+def compress(image):  
+    img = Image.open(image)  
+    if img.mode in ('RGBA', 'LA') or (img.mode == 'P' and 'transparency' in img.info):  
+        background = Image.new('RGB', img.size, (255, 255, 255))  
+        if img.mode == 'RGBA':  
+            background.paste(img, (0, 0), img.split()[3])
+        elif img.mode == 'LA':  
+            background.paste(img, (0, 0), img.split()[1])
+        elif img.mode == 'P':  
+            img = img.convert('RGBA')  
+            background.paste(img, (0, 0), img.split()[3])
+        img = background 
+    elif img.mode == 'P':  
+        img = img.convert('RGB')  
+    img_io = BytesIO()  
+    img.save(img_io, 'JPEG', quality=60)  
+    new_image = File(img_io, name=image.name.split('.')[0] + '.jpg')  
+    return new_image
 
 class Category(models.Model):  
     name = models.CharField(max_length=255, unique=True, verbose_name='نام') 
@@ -11,6 +33,10 @@ class Category(models.Model):
     
     def __str__(self):  
         return self.name  
+    
+    def save(self, *args, **kwargs):
+        self.image = compress(self.image)
+        super().save(*args, **kwargs)
     
     class Meta:
         verbose_name_plural = "دسته بندی ها"
@@ -24,6 +50,11 @@ class Brand(models.Model):
     class Meta:
         verbose_name_plural = "برند"
         verbose_name = "برند ها"
+
+    def save(self, *args, **kwargs):
+        self.image = compress(self.image)
+        super().save(*args, **kwargs)
+
     def __str__(self):  
         return self.title
 
@@ -42,7 +73,11 @@ class Product(models.Model):
     number_of_sales = models.PositiveIntegerField(default=0, verbose_name='تعداد فروش')
 
     def __str__(self):  
-        return self.name  
+        return self.name 
+
+    def save(self, *args, **kwargs):
+        self.image = compress(self.image)
+        super().save(*args, **kwargs) 
 
     @property
     def is_in_stock(self):  
@@ -73,6 +108,10 @@ class ProductImage(models.Model):
 
     def image_preview(self):
         return mark_safe('<img src="{0}" width="64" height="64" />'.format(self.image.url))
+    
+    def save(self, *args, **kwargs):
+        self.image = compress(self.image)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "تصویر"
