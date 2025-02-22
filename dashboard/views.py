@@ -65,16 +65,14 @@ class SettingView(LoginRequiredMixin, View):
 class OrderListView(LoginRequiredMixin, View):
     def get(self, request):
         orders = Order.objects.filter(user=request.user).order_by('-order_date')
-        # Annotate each order with the total price calculated from its cart items  
-        orders = orders.annotate(total_cart_price=Sum('cartitem__quantity') * Sum('cartitem__product__price')).all()
+        
         for order in orders:  
             order.date = format_persian_date(convert_to_persian_calendar_date(order.order_date))
             cart_items = CartItem.objects.filter(order=order)  
             order.products = [{'product_instance': item.product, 'quantity': item.quantity} for item in cart_items] 
 
-        # Retreives all products that user has in his order
-        
         context = {
-            'orders': orders
+            'orders': orders,
+            'total_price': sum(order.total_price for order in orders)
         }
         return render(request, 'dashboard/orders_list.html', context)

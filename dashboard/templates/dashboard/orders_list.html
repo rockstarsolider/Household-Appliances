@@ -24,7 +24,7 @@
                     </div>
                     <div class='flex gap-3'>
                         <p class='text-gray-500'>{{order.date}}</p>|
-                        <p>{{order.total_cart_price|with_commas}} تومان</p>|
+                        <p>{{order.total_price|with_commas}} تومان</p>|
                         <p>کد سفارش: {{order.pk}}</p>
                     </div>
                     <div class='flex gap-4 flex-wrap'>
@@ -39,18 +39,13 @@
         <div class='lg:w-1/4 '>
             <div class='border border-gray-300 rounded-xl p-4 flex flex-col gap-3'>
                 <div class='flex justify-between w-full'>
-                    <p>جمع سبد خرید</p>
-                    <p>{{total_price}}</p>
+                    <p>تعداد سفارشات</p>
+                    <p>{{orders.count}}</p>
                 </div>
                 <div class='flex justify-between w-full'>
-                    <p>هزینه پست</p>
-                    <p>{{shipment_price}}</p>
+                    <p>قیمت همه محصولات خریداری شده</p>
+                    <p>{{total_price|with_commas}}</p>
                 </div>
-                <div class='flex justify-between w-full'>
-                    <p>قیمت نهایی</p>
-                    <p>{{final_price}}</p>
-                </div>
-                <button hx-get='{% url 'order' %}' hx-target='body' hx-swap='outerHTML transition:true' hx-push-url='true' class='btn btn-primary w-full'>ثبت و تکمیل سفارش</button>
             </div>
         </div>
     </div>

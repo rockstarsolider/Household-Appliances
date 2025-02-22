@@ -126,7 +126,8 @@ class OrderView(View):
                 postal_code = request.POST['postal_code'],
                 shipping_address = request.POST['shipping_address'],
                 total_price = total_price + shipment_price,
-                transaction_id = generate_transaction_id()
+                transaction_id = generate_transaction_id(),
+                status = 'cancelled'
             )
             items.update(order=order)
             return redirect('transaction_success')
@@ -136,6 +137,8 @@ class OrderView(View):
 class TransactionSuccess(View):
     def get(self, request):
         order = Order.objects.filter(user=request.user).last()
+        order.status = 'pending'
+        order.save()
 
         # Sending sms for user
         send_order_sms_threaded(order.user.phone_number, order.pk)
