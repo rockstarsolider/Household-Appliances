@@ -1,6 +1,13 @@
 <header class="flex justify-between items-center py-2">
     <div class='flex gap-4 justify-center items-center'>
-        <img hx-get='{% url 'home' %}' hx-swap='outerHTML transition:true' hx-swap='outerHTML transition:true' hx-target='body' hx-push-url='true' src='{{website_setting.logo.url}}' class='w-28 lg:w-40 cursor-pointer'/>
+        <!-- Logo -->
+        <img hx-get='{% url 'home' %}' 
+            hx-swap='outerHTML transition:true' 
+            hx-target='body' 
+            hx-push-url='true' 
+            src='{{website_setting.logo.url}}' 
+            class='w-28 lg:w-40 cursor-pointer'>
+
         <!-- Search input -->
         <form hx-get='{% url 'products' %}' hx-target="body" hx-push-url='true' hx-swap='outerHTML transition:true' class="gap-2 hidden lg:flex">
             <div class='input input-bordered items-center gap-2 w-80 flex'>

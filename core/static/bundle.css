@@ -2602,6 +2602,9 @@ details.collapse summary::-webkit-details-marker {
 .sticky {
   position: sticky;
 }  
+.inset-0 {
+  inset: 0px;
+}  
 .bottom-3 {
   bottom: 0.75rem;
 }  
@@ -2622,6 +2625,9 @@ details.collapse summary::-webkit-details-marker {
 }  
 .z-30 {
   z-index: 30;
+}  
+.z-50 {
+  z-index: 50;
 }  
 .z-\[1\] {
   z-index: 1;
@@ -3024,11 +3030,11 @@ details.collapse summary::-webkit-details-marker {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }  
+.bg-opacity-80 {
+  --tw-bg-opacity: 0.8;
+}  
 .fill-blue-600 {
   fill: #2563eb;
-}  
-.fill-primary {
-  fill: var(--fallback-p,oklch(var(--p)/1));
 }  
 .object-contain {
   -o-object-fit: contain;
@@ -3186,6 +3192,11 @@ details.collapse summary::-webkit-details-marker {
 }  
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}  
+.backdrop-blur-md {
+  --tw-backdrop-blur: blur(12px);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }  
 .backdrop-filter {
   -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
@@ -3423,11 +3434,6 @@ details.collapse summary::-webkit-details-marker {
     color: rgb(107 114 128 / var(--tw-text-opacity));
   }
 
-  .dark\:text-gray-600 {
-    --tw-text-opacity: 1;
-    color: rgb(75 85 99 / var(--tw-text-opacity));
-  }
-
   .dark\:text-green-200 {
     --tw-text-opacity: 1;
     color: rgb(187 247 208 / var(--tw-text-opacity));
@@ -3441,6 +3447,11 @@ details.collapse summary::-webkit-details-marker {
   .dark\:text-red-200 {
     --tw-text-opacity: 1;
     color: rgb(254 202 202 / var(--tw-text-opacity));
+  }
+
+  .dark\:text-gray-600 {
+    --tw-text-opacity: 1;
+    color: rgb(75 85 99 / var(--tw-text-opacity));
   }
 
   .dark\:hover\:bg-gray-700:hover {
