@@ -53,7 +53,11 @@ def remove_from_cart(request, item_id):
 
 class OrderView(View):
     def get(self, request):
-        form = OrderForm() 
+        form = OrderForm(initial={
+                'shipping_address': request.user.shipment_address,
+                'postal_code': request.user.postal_code,
+                'name': request.user.name
+            }) 
         items = CartItem.objects.filter(user=request.user, order__isnull=True)
         total_price = sum((item.product.special_price if item.product.special_price else item.product.price) * item.quantity for item in items) 
         shipment_price = max((item.product.shipment_price for item in items), default=0)

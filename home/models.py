@@ -32,6 +32,7 @@ class WebsiteSetting(models.Model):
     telegram_address = models.CharField(max_length=255, null=True, blank=True, verbose_name='آدرس تلگرام')
     instagram_address = models.CharField(max_length=255, null=True, blank=True, verbose_name='آدرس اینستاگرام')
     whatsapp_address = models.CharField(max_length=255, null=True, blank=True, verbose_name='آدرس واتساپ')
+    shop_address = models.TextField( null=True, blank=True, verbose_name='آدرس فروشگاه')
 
     class Meta:
         verbose_name_plural = "تنظیمات"

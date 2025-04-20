@@ -22,13 +22,6 @@
 
             <div class="form-control pr-3 mt-2">
                 <label class="label cursor-pointer flex justify-between">
-                    <span class="label-text">کالا های قابل حمل</span>
-                    <input onchange='updateUrl()' {% if selected_portable == 'true' %} checked {% endif %} id='portable' type="checkbox" class="toggle toggle-primary" />
-                </label>
-            </div>
-
-            <div class="form-control pr-3 mt-2">
-                <label class="label cursor-pointer flex justify-between">
                     <span class="label-text">کالا های تخفیف دار</span>
                     <input onchange='updateUrl()' {% if selected_discount == 'true' %} checked {% endif %} id='discount' type="checkbox" class="toggle toggle-primary" />
                 </label>
@@ -78,6 +71,18 @@
             <div id='product-list'>
                 {% include "products/partial/products_list_partial.html" %}
             </div>
+            
+            <div class="flex justify-center items-center mt-8">
+                {% if page_obj.has_previous %}
+                    <button onclick="updatePage({{ page_obj.previous_page_number }})" class="btn btn-neutral btn-sm mx-1">صفحه قبل</button>
+                {% endif %}
+                
+                <span class="px-4 py-2">صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }} </span>
+                
+                {% if page_obj.has_next %}
+                    <button onclick="updatePage({{ page_obj.next_page_number }})" class="btn btn-neutral btn-sm mx-1">صفحه بعد</button>
+                {% endif %}
+            </div>
         </div>
     </div>
     <!-- Footer -->
@@ -88,7 +93,6 @@
     function updateUrl(order='latest') {  
         const brand = document.getElementById('brand').value;  
         const category = document.getElementById('category').value;  
-        const portable = document.getElementById('portable').checked;  
         const discount = document.getElementById('discount').checked;  
         const stock = document.getElementById('stock').checked;  
         const from = document.getElementById('from').value;  
@@ -97,7 +101,6 @@
 
         if (brand) { url.searchParams.set('brand', brand)} else { url.searchParams.delete('brand') }  
         if (category) { url.searchParams.set('category', category)} else { url.searchParams.delete('category') }  
-        if (portable) { url.searchParams.set('portable', portable)} else { url.searchParams.delete('portable') }  
         if (discount) { url.searchParams.set('discount', discount)} else { url.searchParams.delete('discount') }  
         if (stock) { url.searchParams.set('stock', stock)} else { url.searchParams.delete('stock') }  
         if (from) { url.searchParams.set('from', from)} else { url.searchParams.delete('from') }  
@@ -112,6 +115,15 @@
         var productsUrl = "{% url 'products' %}?" + url.searchParams.toString();  
         htmx.ajax('GET', productsUrl, { target: 'body', }); 
     }  
+</script>
+
+<!-- Pagination -->
+<script>
+    function updatePage(page) {
+        const url = new URL(window.location);
+        url.searchParams.set('page', page);  // Add/Update 'page' parameter
+        htmxRequest(url);
+    }
 </script>
 
 {% endblock %}

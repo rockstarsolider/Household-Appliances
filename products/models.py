@@ -58,8 +58,15 @@ class Brand(models.Model):
     def __str__(self):  
         return self.title
 
-class Product(models.Model):  
+class Product(models.Model): 
+    UNIT_CHOICES = [  
+        ('int', 'عدد'),  
+        ('box', 'جعبه'),  
+        ('dozen', 'جین'),
+    ]
+
     name = models.CharField(max_length=255, verbose_name='نام')  
+    short_description = models.CharField(max_length=60, null=True, blank=True, verbose_name='توضیحات کوتاه')  
     description = CKEditor5Field(verbose_name='توضیحات', null=True, blank=True, config_name='extends')  
     price = models.PositiveBigIntegerField(verbose_name='قیمت') 
     special_price = models.PositiveBigIntegerField(null=True, blank=True, verbose_name='قیمت ویژه') 
@@ -67,7 +74,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', default='default.png', verbose_name='تصویر اصلی')  
     stock = models.PositiveIntegerField(default=0, verbose_name='موجودی')  
     published_at = models.DateTimeField(verbose_name='منتشر شده در')
-    portable = models.BooleanField(blank=True, null=True, verbose_name='قابلیت حمل')
+    unit = models.CharField(max_length=5, choices=UNIT_CHOICES, default='int', verbose_name='واحد')
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='برند')
     shipment_price = models.PositiveBigIntegerField(default=45000 ,verbose_name='هزینه پست') 
     number_of_sales = models.PositiveIntegerField(default=0, verbose_name='تعداد فروش')

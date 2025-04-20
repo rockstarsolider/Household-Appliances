@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CustomUserUpdateForm, CustomPasswordForm, PersonalInfoForm
@@ -6,18 +6,20 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages   
 from core.models import CustomUser
 from cart.models import Order, CartItem
-from django.db.models import Sum
 from custom_translate.templatetags.persian_calendar_convertor import convert_to_persian_calendar_date, format_persian_date
 
 # Create your views here.
 class SettingView(LoginRequiredMixin, View):
     def get(self, request):
         user_form = CustomUserUpdateForm(instance=request.user)  
-        password_form = CustomPasswordForm()
         context = {  
             'user_form': user_form,  
-            'password_form': password_form,  
-            'personal_form': PersonalInfoForm()
+            'password_form': CustomPasswordForm(),  
+            'personal_form': PersonalInfoForm(initial={
+                'shipping_address': request.user.shipment_address,
+                'postal_code': request.user.postal_code,
+                'name': request.user.name
+            })
         }  
         return render(request, 'dashboard/setting.html', context)
     

@@ -1,7 +1,7 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-    <div class='px-2 md:px-8 2xl:px-[10%]'>
+    <div class='px-2 md:px-8 2xl:px-[5%]'>
         <!-- Header -->
         {% include "products/partial/header.html" %}
 
@@ -12,7 +12,7 @@
                 <img
                   src="{{website_setting.banner_1.url}}"
                   class="w-full object-cover" />
-                <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                <div class="absolute left-5 right-5 top-1/2 -translate-y-1/2 transform justify-between hidden lg:flex">
                   <a href="#slide3" class="btn btn-circle">❮</a>
                   <a href="#slide2" class="btn btn-circle">❯</a>
                 </div>
@@ -23,7 +23,7 @@
                 <img
                   src="{{website_setting.banner_2.url}}"
                   class="w-full object-cover" />
-                <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                <div class="absolute left-5 right-5 top-1/2 -translate-y-1/2 transform justify-between hidden lg:flex">
                   <a href="#slide1" class="btn btn-circle">❮</a>
                   <a href="#slide3" class="btn btn-circle">❯</a>
                 </div>
@@ -34,7 +34,7 @@
                 <img
                   src="{{website_setting.banner_3.url}}"
                   class="w-full object-cover" />
-                <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                <div class="absolute left-5 right-5 top-1/2 -translate-y-1/2 transform justify-between hidden lg:flex">
                   <a href="#slide2" class="btn btn-circle">❮</a>
                   <a href="#slide1" class="btn btn-circle">❯</a>
                 </div>
