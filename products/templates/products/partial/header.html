@@ -20,11 +20,6 @@
         </form>
     </div>
 
-    <!-- Only visible on mobile -->
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-6 w-6 opacity-70 block lg:hidden mr-2 cursor-pointer">
-        <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
-    </svg>
-
     <!-- Auth and shopping cart -->
     <div class="flex gap-2 justify-center items-center">
         <!-- Badge for cart icon -->
@@ -80,3 +75,14 @@
     <p hx-get='{% url 'faq' %}' hx-swap='outerHTML transition:true' hx-target='body' hx-push-url='true' class="mr-4 text-gray-500 cursor-pointer border-b border-white hover:border-primary">سوالی دارید؟</p>         
 </div>
 <div class=" border-b border-gray-300"></div>
+
+<!-- Search for mobile -->
+<form hx-get='{% url 'products' %}' hx-target="body" hx-push-url='true' hx-swap='outerHTML transition:true' class="gap-2 mt-4 flex lg:hidden">
+    <div class='input input-bordered items-center gap-2 w-80 flex'>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-5 w-5 opacity-70">
+            <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+        </svg>
+        <input type="text" class="grow focus:ring-0 border-none" placeholder="جستجو" id='search' name="search"/>
+    </div>
+    <button class='btn btn-primary' type='submit'>جستجو</button>
+</form>
