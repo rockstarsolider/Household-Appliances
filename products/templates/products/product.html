@@ -43,7 +43,7 @@
         <!-- Product Details -->
         <div class="w-full xl:w-[35%] flex flex-col gap-4">
             <h2 class="font-medium text-xl border-b border-gray-300 pb-2">{{product.name}}</h2>
-            <p>{{product.short_description}}</p>
+            <p>{% if product.short_description %} {{product.short_description}} {% endif %}</p>
             <p class="font-medium text-lg">ویژگی ها</p>
             <div class="grid grid-cols-3 gap-2">
                 <div class="bg-gray-100 p-2 rounded">
