@@ -9,9 +9,9 @@ class CartItemAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['user', 'name', 'formatted_price', 'order_date', 'transaction_id']
-    search_fields = ['user', 'name', 'formatted_price', 'order_date', 'transaction_id']
-    list_filter = ['user', 'order_date']
+    list_display = ['id', 'user', 'name', 'formatted_price', 'order_date', 'status']
+    search_fields = ['id', 'name', 'total_price', 'order_date', 'transaction_id']
+    list_filter = ['user', 'order_date', 'status']
     list_per_page = 50
 
     @admin.display(description='قیمت کل')  

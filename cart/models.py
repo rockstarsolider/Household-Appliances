@@ -20,6 +20,7 @@ class Order(models.Model):
     postal_code = models.CharField(max_length=10, verbose_name='کد پستی')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending', verbose_name='وضعیت')   
     transaction_id = models.CharField(max_length=100, blank=True, null=True, unique=True, verbose_name='شناسه تراکنش')
+    ref_id = models.CharField(max_length=100, blank=True, null=True, unique=True, verbose_name='کد ارجاع')
 
     def __str__(self):  
         return f"سفارش {self.id} توسط {self.user} - وضعیت: {self.status}"  

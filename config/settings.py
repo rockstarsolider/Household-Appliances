@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,8 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG = True
-ALLOWED_HOSTS = ['localhost','127.0.0.1','asiagadget.liara.run', 'asiagadget.ir']
+DEBUG = os.getenv("DEBUG", "False").lower() in ("1", "true", "yes")
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv("ALLOWED_HOSTS", "").split(",")
+    if host.strip()
+]
 
 
 # Application definition
@@ -46,6 +53,7 @@ INSTALLED_APPS = [
     'dashboard',
     'cart',
     'custom_translate',
+    'zarinpal',
 
     # Third party packages
     'django_cleanup.apps.CleanupConfig',
@@ -177,3 +185,11 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 AUTH_USER_MODEL = 'core.CustomUser'  
 
 LOGIN_URL = '/login_phone/'
+
+MELLI_PAYAMAK_KEY = os.environ.get("MELLI_PAYAMAK_KEY")
+MELLI_PAYAMAK_USERNAME = os.environ.get("MELLI_PAYAMAK_USERNAME")
+MELLI_PAYAMAK_OTP_TEMPLATE = os.environ.get("MELLI_PAYAMAK_OTP_TEMPLATE")
+MELLI_PAYAMAK_ORDER_TEMPLATE = os.environ.get("MELLI_PAYAMAK_ORDER_TEMPLATE")
+
+MERCHANT_ID = os.environ.get("MERCHANT_ID")
+CALLBACK_URL = os.environ.get("CALLBACK_URL")

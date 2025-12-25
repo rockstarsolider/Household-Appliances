@@ -5,10 +5,11 @@ from django.contrib.auth.decorators import login_required
 from products.models import Product
 from django.contrib import messages  
 from .forms import OrderForm
-import random
+from zarinpal.views import send_request, verify
 from django.db.models import Sum 
 from django.db import transaction
 from core.sms import send_order_sms_threaded
+from django.http import HttpResponse
 
 # Create your views here.
 @login_required(login_url='/login_phone/')
@@ -75,13 +76,6 @@ class OrderView(View):
         total_price = sum((item.product.special_price if item.product.special_price else item.product.price) * item.quantity for item in items) 
         shipment_price = max((item.product.shipment_price for item in items), default=0)
 
-        def generate_transaction_id():  
-            transaction_id = random.randint(100000, 999999)  
-            # Check for uniqueness 
-            while Order.objects.filter(transaction_id=transaction_id).exists():  
-                transaction_id = random.randint(100000, 999999)  
-            return transaction_id
-
         context = {
             'form': form,
             'total_price': f'{total_price:,} تومان',
@@ -91,33 +85,18 @@ class OrderView(View):
 
         if form.is_valid():  
             # Updates the number of sales and reduce the quantity of each product ordered
-            cart_items = items.values('product').annotate(total_quantity=Sum('quantity'))   
-            products_to_update = []  
-            insufficient_stock_items = []  
+            cart_items = items.values('product').annotate(total_quantity=Sum('quantity'))
+            insufficient_stock_items = []
 
-            try:  
-                with transaction.atomic():  
-                    for item in cart_items:  
-                        product = Product.objects.get(id=item['product'])  
-                        total_quantity = item['total_quantity']  
+            for item in cart_items:
+                product = Product.objects.get(id=item['product'])
+                if item['total_quantity'] > product.stock:
+                    insufficient_stock_items.append(product.name)
 
-                        # Check if there is enough stock available  
-                        if total_quantity > product.stock:  
-                            insufficient_stock_items.append(product.name)  
-                            continue  
-
-                        # Prepare updates for bulk processing  
-                        product.number_of_sales += total_quantity  
-                        product.stock -= total_quantity  # Update the stock instead of quantity  
-                        products_to_update.append(product)  
-
-                    # Perform bulk update if there are products to update  
-                    if products_to_update:  
-                        Product.objects.bulk_update(products_to_update, ['number_of_sales', 'stock'])  
-
-            except Product.DoesNotExist:  
-                messages.error(request, "Some products no longer exist.")  
-                return redirect('cart')  
+            if insufficient_stock_items:
+                for name in insufficient_stock_items:
+                    messages.error(request, f'محصول {name} به اندازه کافی موجود نیست')
+                return redirect('cart') 
 
             if insufficient_stock_items:  
                 for product_name in insufficient_stock_items:  
@@ -130,25 +109,85 @@ class OrderView(View):
                 postal_code = request.POST['postal_code'],
                 shipping_address = request.POST['shipping_address'],
                 total_price = total_price + shipment_price,
-                transaction_id = generate_transaction_id(),
                 status = 'cancelled'
             )
             items.update(order=order)
-            return redirect('transaction_success')
+
+            # Sending request to zarinpal
+            response = send_request(request, order)
+            if response['status']:
+                order.transaction_id = response['authority']
+                order.save()
+                hx_response = HttpResponse()
+                hx_response['HX-Redirect'] = response['url']
+                return hx_response
+            else:
+                messages.error(request, f"در اتصال به درگاه خطا رخ داد: {response['code']}")
+                return redirect('home')
         
         return render(request, 'cart/order.html', context) 
     
 class TransactionSuccess(View):
     def get(self, request):
-        order = Order.objects.filter(user=request.user).last()
-        order.status = 'pending'
+        authority = request.GET.get('Authority')
+        status = request.GET.get('Status')
+
+        if not authority:
+            return HttpResponse("Authority not found", status=400)
+
+        try:
+            order = Order.objects.get(transaction_id=authority)
+        except Order.DoesNotExist:
+            return HttpResponse("Order not found", status=404)
+
+        if order.status != 'cancelled':
+            return HttpResponse("Order already processed")
+
+        if status != 'OK':
+            order.status = 'cancelled'
+            order.save()
+            return HttpResponse("Payment cancelled by user")
+
+        verify_response = verify(authority, order)
+
+        if verify_response['status']:
+            with transaction.atomic():
+                cart_items = (
+                    CartItem.objects
+                    .filter(order=order)
+                    .values('product')
+                    .annotate(total_quantity=Sum('quantity'))
+                )
+
+                products_to_update = []
+
+                for item in cart_items:
+                    product = Product.objects.select_for_update().get(id=item['product'])
+                    total_quantity = item['total_quantity']
+
+                    # Safety check (race conditions)
+                    if total_quantity > product.stock:
+                        order.status = 'cancelled'
+                        order.save()
+                        return HttpResponse("Stock changed during payment")
+
+                    product.number_of_sales += total_quantity
+                    product.stock -= total_quantity
+                    products_to_update.append(product)
+
+                Product.objects.bulk_update(products_to_update, ['number_of_sales', 'stock'])
+
+            order.status = 'pending'
+            order.ref_id = verify_response['ref_id']
+            order.save()
+
+            send_order_sms_threaded(order.user.phone_number, order.pk)
+
+            return render(request, 'cart/order_success.html', {
+                'transaction_id': order.transaction_id,
+                'order_id': order.pk,
+            })
+
+        order.status = 'cancelled'
         order.save()
-
-        # Sending sms for user
-        send_order_sms_threaded(order.user.phone_number, order.pk)
-
-        context = {
-            'transaction_id': order.transaction_id,
-            'order_id': order.pk
-        }
-        return render(request, 'cart/order_success.html', context)
+        return HttpResponse(f"Payment failed: {verify_response['code']}")
